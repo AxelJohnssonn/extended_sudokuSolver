@@ -65,6 +65,16 @@ public class Sudoku implements SudokuSolver{
      * @return true if solution was found, false otherwise
      */
     public boolean solve(int row, int col){
+        if(col == 9){
+            col = 0; 
+            row++;
+        }
+        if(row == 9){
+            return true; 
+        }else{
+            
+        }
+
         return true;
     } //solve(0, 0)
 
