@@ -11,7 +11,7 @@ public class Sudoku implements SudokuSolver{
      * @return true if value can be placed at row, col, false otherwise
      */
     public boolean checkIfLegal(int row, int col, int value){
-
+        return true;
     }
 
     /**
@@ -19,15 +19,15 @@ public class Sudoku implements SudokuSolver{
      * @return true if the position has no start value, false otherwise
      */
     public boolean checkIfEmpty(int row, int col){
-
+        return true;
     }
 
     /**
      * Initializes the board with values in the matrix start.
      */
     public void init(int[][] start){
-        for(int r=0; r<=9; r++){
-            for(int c=0; c<=9; c++){
+        for(int r=0; r<9; r++){
+            for(int c=0; c<9; c++){
                 board[r][c] =start[r][c]; 
             }
         }
@@ -44,7 +44,7 @@ public class Sudoku implements SudokuSolver{
      * @return true if solution was found, false otherwise
      */
     public boolean solve(int row, int col){
-
+        return true;
     } //solve(0, 0)
 
     /**

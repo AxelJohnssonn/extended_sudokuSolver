@@ -1,5 +1,5 @@
+package Sudoku_JAVA;
 public interface SudokuSolver{
-    
     
     /**
      * Check if it is legal to place value at row, col.
@@ -26,8 +26,7 @@ public interface SudokuSolver{
      * Method to solve the sudoku.
      * @return true if solution was found, false otherwise
      */
-    boolean solve(int row, int col){                                 
-    } //solve(0, 0)
+    boolean solve(int row, int col); //solve(0, 0)
 
     /**
      * Adds value value at position row, col.
