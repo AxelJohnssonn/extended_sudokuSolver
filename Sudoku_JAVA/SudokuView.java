@@ -26,9 +26,12 @@ public class SudokuView {
     public static final String BASE_COLOR = "#6f73d2";
     public static final String HIGHLIGHT_COLOR = "#9dacff";
     public static final String BORDER_COLOR = "#2A0154";
-    public static final String TEXT_COLOR = "#1e1e1e";
+    public static final String DARK_BG_COLOR = "#1e1e1e";
+    public static final String TEXT_COLOR = DARK_BG_COLOR;
+    public static final String TEXT_COLOR_LIGHT = "#e2e2e2";
 
     private int[][] board; //save the board to update from actionlistener
+    //TODO: rename board to input. And create output board
 
     public SudokuView(int[][] board) {
         this.board=board;
@@ -47,6 +50,33 @@ public class SudokuView {
         Container pane = frame.getContentPane();
         pane.setLayout(new BorderLayout());
         pane.setBackground(Color.darkGray); //Will be changed
+
+        //top row
+        JPanel topPanel = new JPanel(new FlowLayout());
+        topPanel.setBackground(Color.decode(TEXT_COLOR));
+        pane.add(topPanel, BorderLayout.NORTH);
+        
+        
+
+        JLabel panelText1 = new JLabel("- Input -");
+        panelText1.setFont(new Font("Serif", Font.PLAIN, 16));
+        panelText1.setHorizontalAlignment(SwingConstants.LEFT);
+        panelText1.setForeground(Color.decode(TEXT_COLOR_LIGHT));
+        topPanel.add(panelText1);
+        
+        JLabel panelText2 = new JLabel("");
+        panelText2.setFont(new Font("Serif", Font.PLAIN, 16));
+        panelText2.setHorizontalAlignment(SwingConstants.CENTER);
+        panelText2.setForeground(Color.decode(TEXT_COLOR_LIGHT));
+        panelText2.setBorder(BorderFactory.createCompoundBorder(panelText2.getBorder(), BorderFactory.createEmptyBorder(0, 270, 0, 305)));
+        topPanel.add(panelText2);
+
+        JLabel panelText3 = new JLabel("- Output -");
+        panelText3.setFont(new Font("Serif", Font.PLAIN, 16));
+        panelText3.setHorizontalAlignment(SwingConstants.RIGHT);
+        panelText3.setForeground(Color.decode(TEXT_COLOR_LIGHT));
+        topPanel.add(panelText3);
+
 
         //left suduko holder panel
         JPanel inputSuduko = new JPanel();
@@ -121,9 +151,8 @@ public class SudokuView {
             outputSuduko.add(rightSudukoRow[row]);
             for (int col = 0; col<board.length; col++){
                 JButton square = new JButton();
-                square.setText(Integer.toString(board[row][col]));
+                square.setText("0");
                 square.setMargin(buttonMargin);
-                square.setForeground(Color.decode(TEXT_COLOR));
                 square.setBorderPainted(false);
                 square.setFocusPainted(false);
                 square.setBorder(BorderFactory.createCompoundBorder(square.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
@@ -134,6 +163,8 @@ public class SudokuView {
                 } else {
                     square.setBackground(Color.decode(BASE_COLOR));
                 }
+
+                square.setForeground(square.getBackground());
 
                 rightSudukoRow[row].add(square);
             }
@@ -159,7 +190,7 @@ public class SudokuView {
         titleText2.setForeground(Color.decode("#e2e2e2"));
         menurow.add(titleText2);
 
-        JLabel titleText3 = new JLabel("- PREMIUM EDITION -");
+        JLabel titleText3 = new JLabel("- fake space lul -");
         titleText3.setFont(new Font("Serif", Font.PLAIN, 16));
         titleText3.setHorizontalAlignment(SwingConstants.CENTER);
         titleText3.setForeground(Color.decode(TEXT_COLOR));
@@ -187,5 +218,13 @@ public class SudokuView {
         //create window
         frame.pack();
         frame.setVisible(true);
+    }
+
+    private int[][] getInputBoard(){
+        return board;
+    }
+
+    private void updateOutputBoard(int[][] newBoard){
+        //TODO: update the board
     }
 }
