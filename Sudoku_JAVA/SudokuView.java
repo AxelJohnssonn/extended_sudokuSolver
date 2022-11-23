@@ -240,7 +240,7 @@ public class SudokuView {
         solveButton.setHorizontalAlignment(SwingConstants.CENTER);
         menurow.add(solveButton);
         solveButton.addActionListener((o) -> {
-            
+                                                   //---------------------------------------------- LÄGG TILL SOLVER!
         });
 
         JButton clearButton = new JButton("CLEAR");
