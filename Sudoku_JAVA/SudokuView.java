@@ -3,13 +3,16 @@ package Sudoku_JAVA;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -18,10 +21,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileSystemView;
@@ -32,20 +33,18 @@ public class SudokuView {
     public static final String HIGHLIGHT_COLOR = "#9dacff";
     public static final String BORDER_COLOR = "#2A0154";
     public static final String DARK_BG_COLOR = "#1e1e1e";
-    public static final String TEXT_COLOR = DARK_BG_COLOR;
+    public static final String TEXT_COLOR_DARK = DARK_BG_COLOR;
     public static final String TEXT_COLOR_LIGHT = "#e2e2e2";
 
-    private JButton[][] rightButtons = new JButton[9][9];
+    private JTextField[][] textFields = new JTextField[9][9];
     private JFrame frame;
+    private JPanel sudukoView;
 
-    private Sudoku inputBoard; //save the board to update from actionlistener
     private Sudoku outputBoard;
 
     public SudokuView(Sudoku board) {
-        inputBoard=board;
-        outputBoard = new Sudoku();
-        outputBoard.init(inputBoard.getBoard());
-        SwingUtilities.invokeLater(() -> createWindow("Suduko", 1000, 350));
+        outputBoard=board;
+        SwingUtilities.invokeLater(() -> createWindow("Suduko", 497, 600));
     }
 
     private void createWindow(String title, int width, int height) {
@@ -60,197 +59,169 @@ public class SudokuView {
         pane.setLayout(new BorderLayout());
         pane.setBackground(Color.darkGray); //Will be changed
 
-        //top row
+        //------------------------------------------------------------------------
+        //START top title row
         JPanel topPanel = new JPanel(new FlowLayout());
-        topPanel.setBackground(Color.decode(TEXT_COLOR));
+        topPanel.setBackground(Color.decode(DARK_BG_COLOR));
+        topPanel.setPreferredSize(new Dimension(200,120));
+        topPanel.setMinimumSize(new Dimension(200,120));
+        topPanel.setMaximumSize(new Dimension(200,120));
         pane.add(topPanel, BorderLayout.NORTH);
         
-        
+        JLabel titleText = new JLabel("SUDOKU SOLVER");
+        titleText.setFont(new Font("Papyrus", Font.PLAIN, 30));
+        titleText.setHorizontalAlignment(SwingConstants.CENTER);
+        titleText.setForeground(Color.decode("#e2e2e2"));
+        titleText.setBorder(BorderFactory.createCompoundBorder(titleText.getBorder(), BorderFactory.createEmptyBorder(30,0, 0, 0)));
+        topPanel.add(titleText);
+        // END top title row
+        //------------------------------------------------------------------------
 
-        JLabel panelText1 = new JLabel("- Input -");
-        panelText1.setFont(new Font("Serif", Font.PLAIN, 16));
-        panelText1.setHorizontalAlignment(SwingConstants.LEFT);
-        panelText1.setForeground(Color.decode(TEXT_COLOR_LIGHT));
-        topPanel.add(panelText1);
-        
-        JLabel panelText2 = new JLabel("");
-        panelText2.setFont(new Font("Serif", Font.PLAIN, 16));
-        panelText2.setHorizontalAlignment(SwingConstants.CENTER);
-        panelText2.setForeground(Color.decode(TEXT_COLOR_LIGHT));
-        panelText2.setBorder(BorderFactory.createCompoundBorder(panelText2.getBorder(), BorderFactory.createEmptyBorder(0, 270, 0, 305)));
-        topPanel.add(panelText2);
-
-        JLabel panelText3 = new JLabel("- Output -");
-        panelText3.setFont(new Font("Serif", Font.PLAIN, 16));
-        panelText3.setHorizontalAlignment(SwingConstants.RIGHT);
-        panelText3.setForeground(Color.decode(TEXT_COLOR_LIGHT));
-        topPanel.add(panelText3);
-
-
-        //left suduko holder panel
-        JPanel inputSuduko = new JPanel();
-        inputSuduko.setLayout(new GridLayout(0,1,0,2));  //stacks the flowlayout rows
-        inputSuduko.setBackground(Color.decode(BORDER_COLOR));
-        inputSuduko.setBorder(BorderFactory.createCompoundBorder(inputSuduko.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        pane.add(inputSuduko, BorderLayout.WEST); //input sudoko is left/west
-
-        //right suduko holder panel
-        JPanel outputSuduko = new JPanel();
-        outputSuduko.setLayout(new GridLayout(0,1,0,2));  //stacks the flowlayout rows
-        outputSuduko.setBackground(Color.decode(BORDER_COLOR));
-        outputSuduko.setBorder(BorderFactory.createCompoundBorder(inputSuduko.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        pane.add(outputSuduko, BorderLayout.EAST); //input sudoko is left/west
+        //------------------------------------------------------------------------
+        //START center suduko holder panel
+        sudukoView = new JPanel();
+        sudukoView.setLayout(new GridLayout(0,1,0,3));  //stacks the flowlayout rows
+        sudukoView.setBackground(Color.decode(BORDER_COLOR));
+        sudukoView.setPreferredSize(new Dimension(400,300));
+        sudukoView.setMinimumSize(new Dimension(400,300));
+        sudukoView.setMaximumSize(new Dimension(400,300));
+        sudukoView.setBorder(BorderFactory.createCompoundBorder(sudukoView.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        pane.add(sudukoView, BorderLayout.CENTER); //input sudoko is left/west
 
         //the suduko variables
-        Insets buttonMargin = new Insets(0,0,0,0); //remove standard margins
-        JPanel[] leftSudukoRow = new JPanel[9]; //create the rows
-        JPanel[] rightSudukoRow = new JPanel[9]; //create the rows
+        Insets zeroMargin = new Insets(0,0,0,0); //remove standard margins
+        JPanel[] sudukoRow = new JPanel[9]; //create the rows
         Set<Integer> coloredEdge = new HashSet<Integer>(Arrays.asList(0,1,2,6,7,8));
         Set<Integer> coloredCenter = new HashSet<Integer>(Arrays.asList(3,4,5));
 
-        int[][] inputBoardNumber = inputBoard.getBoard();
+        int[][] boardNumber = outputBoard.getBoard();
 
         for(int row = 0; row<9; row++){
-            leftSudukoRow[row]= new JPanel(new FlowLayout(FlowLayout.LEFT,3,0));
-            leftSudukoRow[row].setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-            leftSudukoRow[row].setBackground(Color.darkGray);
-            inputSuduko.add(leftSudukoRow[row]);
+            sudukoRow[row]= new JPanel(new FlowLayout(FlowLayout.LEFT,3,0));
+            sudukoRow[row].setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+            sudukoRow[row].setBackground(Color.decode(BORDER_COLOR));
+            sudukoView.add(sudukoRow[row]);
             for (int col = 0; col<9; col++){
-                JButton square = new JButton();
-                square.setText(Integer.toString(inputBoardNumber[row][col]));
-                square.setMargin(buttonMargin);
-                square.setBorderPainted(false);
-                square.setFocusPainted(false);
-                square.setBorder(BorderFactory.createCompoundBorder(square.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+                textFields[row][col] = new JTextField();
+                textFields[row][col].setText(Integer.toString(boardNumber[row][col]));
+                textFields[row][col].setFont(new Font("Verdana", Font.BOLD, 18));
+                textFields[row][col].setMargin(zeroMargin);
+                textFields[row][col].setBorder(BorderFactory.createCompoundBorder(textFields[row][col].getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
 
-                //color squares depending on if they are in the set
+                //color squares background depending on if they are in the set
                 if (coloredCenter.contains(row)&&coloredCenter.contains(col)||coloredEdge.contains(row)&&coloredEdge.contains(col)) {
-                    square.setBackground(Color.decode(HIGHLIGHT_COLOR));
+                    textFields[row][col].setBackground(Color.decode(HIGHLIGHT_COLOR));
                 } else {
-                    square.setBackground(Color.decode(BASE_COLOR));
+                    textFields[row][col].setBackground(Color.decode(BASE_COLOR));
                 }
 
-                // if 0, hide square
-                if (inputBoardNumber[row][col]==0){
-                    square.setForeground(square.getBackground());
-                } else {
-                    square.setForeground(Color.decode(TEXT_COLOR));
-                }
-
-                leftSudukoRow[row].add(square);
-
-                //toggle number up/down
-                square.addActionListener((o) -> {
-                    if (locked) return; //TODO replace this function to update suduko board
-                    try {
-                        int nbr = Integer.parseInt(square.getText());
-                        if ( nbr >= 9) {
-                            square.setText("0");
-                            square.setForeground(square.getBackground());
-                        } else {
-                            square.setText(nbr+1+"");
-                            square.setForeground(Color.decode(TEXT_COLOR));
-                        }
-                        
-                    } catch (Exception e) {
-                        square.setText("0");
-                        square.setForeground(square.getBackground());
-                    }
-                    
-                }); 
+                sudukoRow[row].add(textFields[row][col]);
             }
         }
+        //TODO filter textfield input
 
-        int[][] outputBoardNumber = outputBoard.getBoard();
+        //END center panel
+        //------------------------------------------------------------------------
 
-        for(int row = 0; row<9; row++){
-            rightSudukoRow[row]= new JPanel(new FlowLayout(FlowLayout.LEFT,3,0));
-            rightSudukoRow[row].setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-            rightSudukoRow[row].setBackground(Color.darkGray);
-            outputSuduko.add(rightSudukoRow[row]);
-            for (int col = 0; col<9; col++){
-                rightButtons[row][col] = new JButton();
-                rightButtons[row][col].setText(outputBoardNumber[row][col]+"");
-                rightButtons[row][col].setMargin(buttonMargin);
-                rightButtons[row][col].setBorderPainted(false);
-                rightButtons[row][col].setFocusPainted(false);
-                rightButtons[row][col].setBorder(BorderFactory.createCompoundBorder(rightButtons[row][col].getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        //------------------------------------------------------------------------
+        //START side images (left)
 
-                //color squares depending on if they are in the set
-                if (coloredCenter.contains(row)&&coloredCenter.contains(col)||coloredEdge.contains(row)&&coloredEdge.contains(col)) {
-                    rightButtons[row][col].setBackground(Color.decode(HIGHLIGHT_COLOR));
-                } else {
-                    rightButtons[row][col].setBackground(Color.decode(BASE_COLOR));
-                }
+        JPanel leftSide = new JPanel();
+        leftSide.setPreferredSize(new Dimension(50,300));
+        leftSide.setMinimumSize(new Dimension(50,300));
+        leftSide.setMaximumSize(new Dimension(50,300));
+        leftSide.setBackground(Color.decode(DARK_BG_COLOR));
+        pane.add(leftSide, BorderLayout.WEST);
 
-                rightButtons[row][col].setForeground(rightButtons[row][col].getBackground());
+        // (right)
+        JPanel rightSide = new JPanel();
+        rightSide.setPreferredSize(new Dimension(50,300));
+        rightSide.setMinimumSize(new Dimension(50,300));
+        rightSide.setMaximumSize(new Dimension(50,300));
+        rightSide.setBackground(Color.decode(DARK_BG_COLOR));
+        pane.add(rightSide, BorderLayout.EAST);
 
-                rightSudukoRow[row].add(rightButtons[row][col]);
-            }
+        // (flames)
+        try {
+            URL url = new URL("https://media.tenor.com/FKqQdNFwBu8AAAAC/flames-flaming.gif");
+            Icon icon = new ImageIcon(url);
+            JLabel leftFlames = new JLabel(icon);
+            leftSide.add(leftFlames);
+            JLabel rightFlames = new JLabel(icon);
+            rightSide.add(rightFlames);
+        } catch (MalformedURLException e) {
+            return;
         }
+        //END side images
+        //------------------------------------------------------------------------
 
-        //center menu panel holder
-        JPanel menurow = new JPanel(new GridLayout(0,1));
-        menurow.setBackground(Color.decode(TEXT_COLOR));
-        menurow.setPreferredSize(new Dimension(200,200));
-        menurow.setMinimumSize(new Dimension(200,200));
-        menurow.setMaximumSize(new Dimension(200,200));
-        pane.add(menurow);
+        //------------------------------------------------------------------------
+        //START bottom menu panel holder
+        JPanel menurow = new JPanel(new FlowLayout());
+        menurow.setBackground(Color.decode(DARK_BG_COLOR));
+        menurow.setPreferredSize(new Dimension(200,100));
+        menurow.setMinimumSize(new Dimension(200,100));
+        menurow.setMaximumSize(new Dimension(200,100));
+        pane.add(menurow, BorderLayout.SOUTH);
 
-        //center title
-        JLabel titleText = new JLabel("SUDUKO SOLVER");
-        titleText.setFont(new Font("Serif", Font.PLAIN, 28));
-        titleText.setHorizontalAlignment(SwingConstants.CENTER);
-        titleText.setForeground(Color.decode("#e2e2e2"));
-        menurow.add(titleText);
+        JPanel menurowCenter = new JPanel(new FlowLayout(FlowLayout.CENTER,20,0));
+        menurowCenter.setBorder(BorderFactory.createCompoundBorder(menurowCenter.getBorder(), BorderFactory.createEmptyBorder(30,0,0,0)));
+        menurowCenter.setBackground(Color.decode(DARK_BG_COLOR));
+        menurow.add(menurowCenter);
 
-        //center line 2 title
-        JLabel titleText2 = new JLabel("- PREMIUM EDITION -");
-        titleText2.setFont(new Font("Serif", Font.PLAIN, 16));
-        titleText2.setHorizontalAlignment(SwingConstants.CENTER);
-        titleText2.setForeground(Color.decode("#e2e2e2"));
-        menurow.add(titleText2);
-
-        JButton transferButton = new JButton(">>>>       TRANSFER       >>>>");
-        transferButton.setHorizontalAlignment(SwingConstants.CENTER);
-        menurow.add(transferButton);
-        transferButton.addActionListener((o) -> {
-            outputBoard = new Sudoku();
-            outputBoard.init(inputBoard.getBoard()); //output copy input board
-            updateOutputBoard();
-        });
-
-        JButton loadButton = new JButton("LOAD FROM FILE");
+        JButton loadButton = new JButton("LOAD");
         loadButton.setHorizontalAlignment(SwingConstants.CENTER);
-        menurow.add(loadButton);
+        loadButton.setBackground(Color.decode(DARK_BG_COLOR));
+        loadButton.setForeground(Color.decode(TEXT_COLOR_LIGHT));
+        loadButton.setFont(new Font("Papyrus", Font.BOLD, 15));
+        menurowCenter.add(loadButton);
         loadButton.addActionListener((o) -> {
-            try {
-                outputBoard = getBoardFromFile();
-                updateOutputBoard(); 
-            } catch (NullPointerException e){
-                e.printStackTrace();
+            if (locked){
                 return;
             }
-
-
-            
+            Sudoku loadedBoard = getBoardFromFile();
+            if(loadedBoard !=null){
+                outputBoard=loadedBoard;
+                updateOutputBoard(); 
+            }else {
+                System.out.print("Could not load");
+            }
         });
 
         JButton solveButton = new JButton("SOLVE");
         solveButton.setHorizontalAlignment(SwingConstants.CENTER);
-        menurow.add(solveButton);
+        solveButton.setFont(new Font("Papyrus", Font.BOLD, 15));
+        solveButton.setBackground(Color.decode(DARK_BG_COLOR));
+        solveButton.setForeground(Color.decode(TEXT_COLOR_LIGHT));
+        menurowCenter.add(solveButton);
         solveButton.addActionListener((o) -> {
-                                                   //---------------------------------------------- LÄGG TILL SOLVER!
+
+            locked=true;
+            sudukoView.setBackground(Color.YELLOW);
+            updateOutputBoard();
+            //save pre
+            //- LÄGG TILL SOLVER!
+            //color pre
+            locked=false;
+            sudukoView.setBackground(Color.decode(BORDER_COLOR));
         });
 
         JButton clearButton = new JButton("CLEAR");
         clearButton.setHorizontalAlignment(SwingConstants.CENTER);
-        menurow.add(clearButton);
+        clearButton.setFont(new Font("Papyrus", Font.BOLD, 15));
+        clearButton.setBackground(Color.decode(DARK_BG_COLOR));
+        clearButton.setForeground(Color.decode(TEXT_COLOR_LIGHT));
+        menurowCenter.add(clearButton);
         clearButton.addActionListener((o) -> {
+            if (locked){
+                return;
+            }
             outputBoard = new Sudoku();
             outputBoard.init(new int[9][9]); //output become an empty board
             updateOutputBoard();
         });
+        //END bottom panel menu row
+        //------------------------------------------------------------------------
         
         //create window
         frame.pack();
@@ -261,12 +232,13 @@ public class SudokuView {
         int[][] board = outputBoard.getBoard();
             for(int row = 0; row<9; row++){
                 for (int col = 0; col<9; col++){
-                    rightButtons[row][col].setText(board[row][col]+"");
+                    textFields[row][col].setText(board[row][col]+"");
+                    
                     if (board[row][col]==0){
-                        rightButtons[row][col].setForeground(rightButtons[row][col].getBackground());
+                        textFields[row][col].setForeground(textFields[row][col].getBackground());
                     } else {
-                        rightButtons[row][col].setForeground(Color.decode(TEXT_COLOR));
-                    }
+                        textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK));
+                    } 
                     
                 }
             }
@@ -302,16 +274,11 @@ public class SudokuView {
             }
             input.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
             return null;
         }
         Sudoku suduko = new Sudoku();
         suduko.init(board);
         return suduko;
-    }
-
-    public Sudoku getInputBoard(){
-        return inputBoard;
     }
 
     public Sudoku getOutputBoard(){

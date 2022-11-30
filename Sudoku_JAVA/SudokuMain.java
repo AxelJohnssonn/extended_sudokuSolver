@@ -12,12 +12,5 @@ public class SudokuMain{
         game.init(board);
 
         SudokuView b1 = new SudokuView(game);
-
-        for(int r=0; r<9; r++){
-            for(int c=0; c<9; c++){
-                System.out.print(board[1][c]); 
-            }
-            System.out.println(board[r][1]);
-        }
     }
 }
