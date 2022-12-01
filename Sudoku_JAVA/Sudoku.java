@@ -25,7 +25,7 @@ public class Sudoku implements SudokuSolver{
             }
         }
 
-        //checkar inom varje 3x3 HUR FAN GÖR JAG DET!?!?!?!
+        //checkar inom varje 3x3. Finns en känd metod att använda modulu. Ska kika på denna! //Axel 
 
         return true;
     }
@@ -64,19 +64,48 @@ public class Sudoku implements SudokuSolver{
      * Method to solve the sudoku.
      * @return true if solution was found, false otherwise
      */
-    public boolean solve(int row, int col){
+    public boolean solve() { 
+            for(int r = 0; r < 9; r++){
+                for(int c = 0; c < 9; c++){
+                    if(board[r][c] != 0){
+                        if(!checkIfLegal(r, c, board[r][c])){
+                            return false;
+                        }
+                    }
+                }
+            }
+            return rSolve(0, 0);
+        } //solve(0,0)
+
+    /**
+     * Recursive method to solve current sudoku game. 
+     * @return  true if solution was found, false otherwise
+     */
+    private boolean rSolve(int row, int col){ //rekursiv metod som först kollar om värdet går att sätta i platsen, om det är tillåtet gör den det. Annars returnar false.
         if(col == 9){
             col = 0; 
             row++;
         }
         if(row == 9){
             return true; 
-        }else{
-            
+        }
+        if(board[row][col] != 0){
+            return rSolve(row, col +1);
         }
 
-        return true;
-    } //solve(0, 0)
+        for(int i = 0; i < 9; i++){
+            if(checkIfLegal(row, col, i)){ //kollar om värdet går att tillsätta i platsen
+                board[row][col] = i;
+            
+                if(rSolve(row, col+1)){ //om det gick att tillsätta nästa plats, fortsätter denna metod.
+                    return true; 
+                }
+            }
+            board[row][col] = 0; 
+        }
+
+        return false; //Fanns ingen lösning. Nollställer platsen ovan. 
+    } 
 
     /**
      * Adds value value at position row, col.
