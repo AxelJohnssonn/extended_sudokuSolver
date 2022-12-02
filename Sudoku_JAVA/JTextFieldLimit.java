@@ -27,7 +27,7 @@ public class JTextFieldLimit extends JTextField {
         public void insertString(int offset, String  str, AttributeSet attr) throws BadLocationException {
             if (str == null) return;
 
-            if ((getLength() + str.length()) <= limit && str.matches("[0-9]+")) {
+            if ((getLength() + str.length()) <= limit && str.matches("[1-9]+")) {
                 super.insertString(offset, str, attr);
             }
         }       

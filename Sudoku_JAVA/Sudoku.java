@@ -64,7 +64,7 @@ public class Sudoku implements SudokuSolver{
      * Method to solve the sudoku.
      * @return true if solution was found, false otherwise
      */
-    public boolean solve() { 
+    public boolean solve(int row, int col) { 
             for(int r = 0; r < 9; r++){
                 for(int c = 0; c < 9; c++){
                     if(board[r][c] != 0){

@@ -104,11 +104,15 @@ public class SudokuView {
 
             for (int col = 0; col < 9; col++) {
                 textFields[row][col] = new JTextFieldLimit();
-                textFields[row][col].setText(Integer.toString(boardNumber[row][col]));
+                if (boardNumber[row][col]!=0) {
+                    textFields[row][col].setText(Integer.toString(boardNumber[row][col]));
+                }
                 textFields[row][col].setFont(new Font("Verdana", Font.BOLD, 18));
                 textFields[row][col].setMargin(zeroMargin);
-                textFields[row][col].setBorder(BorderFactory.createCompoundBorder(textFields[row][col].getBorder(),
-                        BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+                textFields[row][col].setBorder(BorderFactory.createCompoundBorder(textFields[row][col].getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+                textFields[row][col].setPreferredSize(new Dimension(40, 40));
+                textFields[row][col].setMinimumSize(new Dimension(40,40));
+                textFields[row][col].setMaximumSize(new Dimension(40,40));
 
                 // color squares background depending on if they are in the set
                 if (coloredCenter.contains(row) && coloredCenter.contains(col)
@@ -118,11 +122,8 @@ public class SudokuView {
                     textFields[row][col].setBackground(Color.decode(BASE_COLOR));
                 }
 
-                if (boardNumber[row][col]==0){
-                    textFields[row][col].setForeground(textFields[row][col].getBackground());
-                } else {
-                    textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK));
-                } 
+                textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK));
+                 
 
                 sudukoRow[row].add(textFields[row][col]);
             }
@@ -253,32 +254,21 @@ public class SudokuView {
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 textFields[row][col].setText(board[row][col] + "");
-
-                if (board[row][col] == 0) {
-                    textFields[row][col].setForeground(textFields[row][col].getBackground());
-                } else {
-                    textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK));
-                }
-
             }
         }
     }
 
-
-    private void colorLegends(int[][] copyBoard){
+    private void colorLegends(int[][] copyBoard) {
         System.out.print("test");
         outputBoard.solve();
-        for (int row = 0; row<9 ; row++){
-            for (int col = 0; col<9 ; col++){
-                if (copyBoard[row][col]==outputBoard.getBoard()[row][col]){ //old number
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (copyBoard[row][col] == outputBoard.getBoard()[row][col]) { // old number
                     textFields[row][col].setFont(new Font("Verdana", Font.BOLD, 18));
                     textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK));
-                } else { //new number
+                } else { // new number
                     textFields[row][col].setFont(new Font("Verdana", Font.PLAIN, 18));
                     textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK_HIGHLIGHT));
-                }
-                if (copyBoard[row][col]==0) {
-                    textFields[row][col].setForeground(textFields[row][col].getBackground());
                 }
 
             }
