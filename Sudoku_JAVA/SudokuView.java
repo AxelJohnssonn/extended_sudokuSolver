@@ -30,6 +30,7 @@ public class SudokuView {
     public static final String BORDER_COLOR = "#2A0154";
     public static final String DARK_BG_COLOR = "#1e1e1e";
     public static final String TEXT_COLOR_DARK = DARK_BG_COLOR;
+    public static final String TEXT_COLOR_DARK_HIGHLIGHT = BORDER_COLOR;
     public static final String TEXT_COLOR_LIGHT = "#e1e1e1";
 
     private JTextFieldLimit[][] textFields = new JTextFieldLimit[9][9];
@@ -65,7 +66,7 @@ public class SudokuView {
         topPanel.setMaximumSize(new Dimension(200, 120));
         pane.add(topPanel, BorderLayout.NORTH);
 
-        JLabel titleText = new JLabel("SUDOKU SOLVER");
+        JLabel titleText = new JLabel("SUDOKU  SOLVER");
         titleText.setFont(new Font("Papyrus", Font.PLAIN, 30));
         titleText.setHorizontalAlignment(SwingConstants.CENTER);
         titleText.setForeground(Color.decode("#e2e2e2"));
@@ -116,6 +117,12 @@ public class SudokuView {
                 } else {
                     textFields[row][col].setBackground(Color.decode(BASE_COLOR));
                 }
+
+                if (boardNumber[row][col]==0){
+                    textFields[row][col].setForeground(textFields[row][col].getBackground());
+                } else {
+                    textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK));
+                } 
 
                 sudukoRow[row].add(textFields[row][col]);
             }
@@ -198,15 +205,26 @@ public class SudokuView {
         solveButton.setForeground(Color.decode(TEXT_COLOR_LIGHT));
         menurowCenter.add(solveButton);
         solveButton.addActionListener((o) -> {
-
-            locked = true;
+            if (locked){
+                return;
+            }
+            locked = true; //prevent other buttons from working
             sudukoView.setBackground(Color.YELLOW);
-            updateOutputBoard();
+            int[][] copyBoard = new int[9][9]; //save nonempty squares
+            for (int row = 0 ; row<9 ; row++) {
+                for (int col = 0; col<9 ; col++) {
+                    copyBoard[row][col] = outputBoard.getBoard()[row][col];
+                }
+            }
             // save pre
             // - LÄGG TILL SOLVER!
+            outputBoard.add(0, 8, 5);
+            //- slut solver
             // color pre
-            locked = false;
-            sudukoView.setBackground(Color.decode(BORDER_COLOR));
+            colorLegends(copyBoard); // colors the numbers that where there before solve
+            updateOutputBoard();
+            locked = false; // realease buttons
+            sudukoView.setBackground(Color.decode(BORDER_COLOR)); 
         });
 
         JButton clearButton = new JButton("CLEAR");
@@ -219,8 +237,7 @@ public class SudokuView {
             if (locked) {
                 return;
             }
-            outputBoard = new Sudoku();
-            outputBoard.init(new int[9][9]); // output become an empty board
+            outputBoard.clear();
             updateOutputBoard();
         });
         // END bottom panel menu row
@@ -244,9 +261,27 @@ public class SudokuView {
                 }
 
             }
+    }
+
+
+    private void colorLegends(int[][] copyBoard){
+        System.out.print("test");
+        outputBoard.solve();
+        for (int row = 0; row<9 ; row++){
+            for (int col = 0; col<9 ; col++){
+                if (copyBoard[row][col]==outputBoard.getBoard()[row][col]){ //old number
+                    textFields[row][col].setFont(new Font("Verdana", Font.BOLD, 18));
+                    textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK));
+                } else { //new number
+                    textFields[row][col].setFont(new Font("Verdana", Font.PLAIN, 18));
+                    textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK_HIGHLIGHT));
+                }
+                if (copyBoard[row][col]==0) {
+                    textFields[row][col].setForeground(textFields[row][col].getBackground());
+                }
+
+            }
         }
-        outputBoard = new Sudoku();
-        outputBoard.init(board);
     }
 
     private Sudoku getBoardFromFile() {
