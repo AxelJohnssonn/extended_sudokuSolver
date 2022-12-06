@@ -25,16 +25,17 @@ public class Sudoku implements SudokuSolver{
             }
         }
 
-        //checkar inom varje 3x3. Finns en känd metod att använda modulu. Ska kika på denna! //Axel 
-        for(int i=0; i<9; i++){
-            for(int r=0; r<3; r++){
-                for(int c=0; c<3; c++){
-                    if(row != r && col != c && board[r+3*i/3][c+3*i/3] == value){
-                        return false;
-                    }
-                }
+        //checkar inom varje 3x3. Finns en känd metod att använda modulu. Ska kika på denna! //Axel     
+        int x = row - row%3; 
+        int y = col - col%3;
+
+       for(int r=x; r < x+3; r++){
+        for(int c=y; c < y+3; c++){
+            if(board[r][c] == value && col != c && row != r){
+                return false; 
             }
         }
+       }
 
         return true;
     }

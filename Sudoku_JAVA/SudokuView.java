@@ -219,7 +219,8 @@ public class SudokuView {
             }
             // save pre
             // - LÄGG TILL SOLVER!
-            outputBoard.add(0, 8, 5);
+            //outputBoard.add(0, 8, 5);
+            outputBoard.solve(0,0);
             //- slut solver
             // color pre
             colorLegends(copyBoard); // colors the numbers that where there before solve
@@ -260,7 +261,7 @@ public class SudokuView {
 
     private void colorLegends(int[][] copyBoard) {
         System.out.print("test");
-        outputBoard.solve(0,0);
+        outputBoard.solve(0,0);//---------------------------------------(Solve())
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 if (copyBoard[row][col] == outputBoard.getBoard()[row][col]) { // old number
