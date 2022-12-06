@@ -26,6 +26,15 @@ public class Sudoku implements SudokuSolver{
         }
 
         //checkar inom varje 3x3. Finns en känd metod att använda modulu. Ska kika på denna! //Axel 
+        for(int i=0; i<9; i++){
+            for(int r=0; r<3; r++){
+                for(int c=0; c<3; c++){
+                    if(row != r && col != c && board[r+3*i/3][c+3*i/3] == value){
+                        return false;
+                    }
+                }
+            }
+        }
 
         return true;
     }
@@ -75,12 +84,12 @@ public class Sudoku implements SudokuSolver{
                 }
             }
             return rSolve(0, 0);
-        } //solve(0,0)
+        } //solve(0,0)       
 
     /**
      * Recursive method to solve current sudoku game. 
-     * @return  true if solution was found, false otherwise
-     */
+     * @return  true if solution was found, false otherwise 
+     */ 
     private boolean rSolve(int row, int col){ //rekursiv metod som först kollar om värdet går att sätta i platsen, om det är tillåtet gör den det. Annars returnar false.
         if(col == 9){
             col = 0; 
@@ -96,7 +105,7 @@ public class Sudoku implements SudokuSolver{
         for(int i = 0; i < 9; i++){
             if(checkIfLegal(row, col, i)){ //kollar om värdet går att tillsätta i platsen
                 board[row][col] = i;
-            
+                
                 if(rSolve(row, col+1)){ //om det gick att tillsätta nästa plats, fortsätter denna metod.
                     return true; 
                 }
