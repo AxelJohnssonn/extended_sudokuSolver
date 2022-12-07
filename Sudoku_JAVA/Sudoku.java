@@ -10,17 +10,17 @@ public class Sudoku implements SudokuSolver{
      * Check if it is legal to place value at row, col.
      * @return true if value can be placed at row, col, false otherwise
      */
-    public boolean checkIfLegal(int row, int col, int value){
+    public boolean legal(int digit, int row, int col){
 
         //checkar columner
         for(int r=0; r<9; r++){
-           if(row != r && board[r][col] == value){
+           if(row != r && board[r][col] == digit){
             return false;
            }
         }
         //checkar rader
         for(int c=0; c<9; c++){
-            if(col != c && board[row][c] == value){
+            if(col != c && board[row][c] == digit){
                 return false; 
             }
         }
@@ -31,7 +31,7 @@ public class Sudoku implements SudokuSolver{
 
        for(int r=x; r < x+3; r++){
         for(int c=y; c < y+3; c++){
-            if(board[r][c] == value && col != c && row != r){
+            if(board[r][c] == digit && col != c && row != r){
                 return false; 
             }
         }
@@ -56,10 +56,10 @@ public class Sudoku implements SudokuSolver{
     /**
      * Initializes the board with values in the matrix start.
      */
-    public void init(int[][] start){
+    public void setMatrix(int[][] matrix){
         for(int r=0; r<9; r++){
             for(int c=0; c<9; c++){
-                board[r][c] = start[r][c]; 
+                board[r][c] = matrix[r][c]; 
             }
         }
     }
@@ -67,18 +67,18 @@ public class Sudoku implements SudokuSolver{
      * Returns the solution.
      * @return int matrix with a valid solution
      */
-    public int[][] getBoard(){
+    public int[][] getMatrix(){
         return board; 
     }
     /**
      * Method to solve the sudoku.
      * @return true if solution was found, false otherwise
      */
-    public boolean solve(int row, int col) { 
+    public boolean solve() { 
             for(int r = 0; r < 9; r++){
                 for(int c = 0; c < 9; c++){
                     if(board[r][c] != 0){
-                        if(!checkIfLegal(r, c, board[r][c])){
+                        if(!legal(board[r][c], r, c)){
                             return false;
                         }
                     }
@@ -104,7 +104,7 @@ public class Sudoku implements SudokuSolver{
         }
 
         for(int i = 0; i < 9; i++){
-            if(checkIfLegal(row, col, i)){ //kollar om värdet går att tillsätta i platsen
+            if(legal(i, row, col)){ //kollar om värdet går att tillsätta i platsen
                 board[row][col] = i;
                 
                 if(rSolve(row, col+1)){ //om det gick att tillsätta nästa plats, fortsätter denna metod.

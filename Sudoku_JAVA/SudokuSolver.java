@@ -5,7 +5,7 @@ public interface SudokuSolver{
      * Check if it is legal to place value at row, col.
      * @return true if value can be placed at row, col, false otherwise
      */
-    boolean checkIfLegal(int row, int col, int value);
+    boolean legal(int digit, int row, int col);
 
     /**
      * Check if the position at row, col has a start value
@@ -13,15 +13,19 @@ public interface SudokuSolver{
      */
     boolean checkIfEmpty(int row, int col);
 
-    /**
-     * Initializes the board with values in the matrix start.
-     */
-    void init(int[][] start);
+      /**
+	 * Fills the grid with the digits in m. The digit 0 represents an empty box.
+	 * 
+	 * @param m the matrix with the digits to insert
+	 * @throws IllegalArgumentException if m has the wrong dimension or contains
+	 *                                  values outside the range [0..9]
+	 */
+    void setMatrix(int[][] matrix);
     /**
      * Returns the solution.
      * @return int matrix with a valid solution
      */
-    int[][] getBoard();
+    int[][] getMatrix();
     /**
      * Method to solve the sudoku.
      * @return true if solution was found, false otherwise
@@ -31,7 +35,7 @@ public interface SudokuSolver{
     /**
      * Adds value value at position row, col.
      */
-    void add(int row, int col, int value);
+    void set(int digit, int row, int col);
 
     /**
      * Clears the sudoku.
