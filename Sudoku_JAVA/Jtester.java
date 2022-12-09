@@ -4,10 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.Duration;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 
  public class Jtester {
@@ -55,10 +58,10 @@ import org.junit.jupiter.api.Test;
                 {0, 0, 0, 0, 0, 0, 0, 0, 5},
                 {1, 0, 2, 5, 0, 0, 0, 0, 0},
                 {0, 0, 0, 2, 1, 0, 0, 9, 0},
-                {0, 0, 0, 0, 0, 0, 6, 0, 0},
+                {0, 5, 0, 0, 0, 0, 6, 0, 0},
                 {6, 0, 0, 0, 0, 0, 0, 2, 8},
                 {4, 1, 0, 6, 0, 8, 0, 0, 0},
-                {8, 0, 0, 0, 3, 0, 1, 0, 0},
+                {8, 6, 0, 0, 3, 0, 1, 0, 0},
                 {0, 0, 0, 0, 0, 0, 4, 0, 0}
         };
         int[][] gridSolved = new int[][]{
@@ -72,17 +75,29 @@ import org.junit.jupiter.api.Test;
                 {8, 6, 7, 4, 3, 2, 1, 5, 9},
                 {9, 2, 3, 7, 5, 1, 4, 8, 6}
         };
-
-    
         sudoku.setMatrix(grid);
         sudoku2.setMatrix(gridSolved);
         sudoku.solve();
         
-        Assertions.assertArrayEquals(sudoku.getMatrix(), gridSolved, "The board is not solved correctly");
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                System.out.println(sudoku.getMatrix()[i][j]);
+                Assertions.assertEquals(gridSolved[i][j], sudoku.getMatrix()[i][j], "The board is fuuucked");
+            }
+        }
     }
+    
+
+    
+      
+      
 
     @Test
-    public void testImpossibleBoard(){
+    @Timeout(3)
+    public void testImpossibleBoard() throws InterruptedException {
+        Assertions.assertTimeout(Duration.ofSeconds(10),()->{
+            getValue();
+        });
         int[][] grid = new int[][]{
                 {1, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 1, 0, 0, 0, 0, 0},
@@ -97,6 +112,10 @@ import org.junit.jupiter.api.Test;
         sudoku.setMatrix(grid);
         sudoku.solve();
         assertFalse(sudoku.solve(), "The board is broken af");
+    }
+    String getValue() throws InterruptedException{
+        Thread.sleep(10000);
+        return "oops";
     }
 
 
