@@ -143,5 +143,10 @@ public class Sudoku implements SudokuSolver{
         board[row][col] = 0; 
     }
 
+    @Override
+    public void set(int digit, int row, int col) {
+        board[row][col] = digit;     
+    }
+
     
 }

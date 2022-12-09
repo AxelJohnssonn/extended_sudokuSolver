@@ -214,12 +214,17 @@ public class SudokuView {
             int[][] copyBoard = new int[9][9]; //save nonempty squares
             for (int row = 0 ; row<9 ; row++) {
                 for (int col = 0; col<9 ; col++) {
-                    copyBoard[row][col] = outputBoard.getMatrix()[row][col];
+                    if (textFields[row][col].getText().equals("")) {
+                        copyBoard[row][col] = 0;
+                    } else {
+                        copyBoard[row][col] = Integer.parseInt(textFields[row][col].getText());
+                    }
                 }
             }
             // save pre
             // - LÄGG TILL SOLVER!
             //outputBoard.add(0, 8, 5);
+            outputBoard.setMatrix(copyBoard);
             outputBoard.solve();
             System.out.print(" ute ");
             //- slut solver
@@ -261,8 +266,6 @@ public class SudokuView {
     }
 
     private void colorLegends(int[][] copyBoard) {
-        System.out.print("test");
-        outputBoard.solve();//---------------------------------------(Solve())
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 if (copyBoard[row][col] == outputBoard.getMatrix()[row][col]) { // old number
