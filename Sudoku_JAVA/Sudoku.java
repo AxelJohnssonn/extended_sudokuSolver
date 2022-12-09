@@ -1,4 +1,7 @@
 package Sudoku_JAVA;
+
+import javax.swing.JOptionPane;
+
 public class Sudoku implements SudokuSolver{
     private int[][] board;
 
@@ -80,6 +83,7 @@ public class Sudoku implements SudokuSolver{
                     if(board[r][c] != 0){
                         System.out.print(r+" "+c);
                         if(!legal(board[r][c], r, c)){
+                            JOptionPane.showMessageDialog(null, "CRITICAL ERROR: UNSOLVABLE INPUT", "ERROR", JOptionPane.ERROR_MESSAGE);
                             return false;
                         }
                     }

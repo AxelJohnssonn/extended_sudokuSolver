@@ -261,8 +261,6 @@ public class SudokuView {
     }
 
     private void colorLegends(int[][] copyBoard) {
-        System.out.print("test");
-        outputBoard.solve();//---------------------------------------(Solve())
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 if (copyBoard[row][col] == outputBoard.getMatrix()[row][col]) { // old number
