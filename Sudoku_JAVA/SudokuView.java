@@ -94,7 +94,7 @@ public class SudokuView {
         Set<Integer> coloredEdge = new HashSet<Integer>(Arrays.asList(0, 1, 2, 6, 7, 8));
         Set<Integer> coloredCenter = new HashSet<Integer>(Arrays.asList(3, 4, 5));
 
-        int[][] boardNumber = outputBoard.getBoard();
+        int[][] boardNumber = outputBoard.getMatrix();
 
         for (int row = 0; row < 9; row++) {
             sudukoRow[row] = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 0));
@@ -214,13 +214,14 @@ public class SudokuView {
             int[][] copyBoard = new int[9][9]; //save nonempty squares
             for (int row = 0 ; row<9 ; row++) {
                 for (int col = 0; col<9 ; col++) {
-                    copyBoard[row][col] = outputBoard.getBoard()[row][col];
+                    copyBoard[row][col] = outputBoard.getMatrix()[row][col];
                 }
             }
             // save pre
             // - LÄGG TILL SOLVER!
             //outputBoard.add(0, 8, 5);
-            outputBoard.solve(0,0);
+            outputBoard.solve();
+            System.out.print(" ute ");
             //- slut solver
             // color pre
             colorLegends(copyBoard); // colors the numbers that where there before solve
@@ -251,7 +252,7 @@ public class SudokuView {
     }
 
     private void updateOutputBoard() {
-        int[][] board = outputBoard.getBoard();
+        int[][] board = outputBoard.getMatrix();
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 textFields[row][col].setText(board[row][col] + "");
@@ -261,10 +262,10 @@ public class SudokuView {
 
     private void colorLegends(int[][] copyBoard) {
         System.out.print("test");
-        outputBoard.solve(0,0);//---------------------------------------(Solve())
+        outputBoard.solve();//---------------------------------------(Solve())
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
-                if (copyBoard[row][col] == outputBoard.getBoard()[row][col]) { // old number
+                if (copyBoard[row][col] == outputBoard.getMatrix()[row][col]) { // old number
                     textFields[row][col].setFont(new Font("Verdana", Font.BOLD, 18));
                     textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK));
                 } else { // new number
@@ -307,7 +308,7 @@ public class SudokuView {
             return null;
         }
         Sudoku suduko = new Sudoku();
-        suduko.init(board);
+        suduko.setMatrix(board);
         return suduko;
     }
 
@@ -317,7 +318,7 @@ public class SudokuView {
 
     public void setOutputBoard(int[][] newBoard) {
         outputBoard = new Sudoku();
-        outputBoard.init(newBoard);
+        outputBoard.setMatrix(newBoard);
     }
 
     // --------------------------------------------------------------------------------

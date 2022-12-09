@@ -30,7 +30,7 @@ public interface SudokuSolver{
      * Method to solve the sudoku.
      * @return true if solution was found, false otherwise
      */
-    boolean solve(int row, int col); //solve(0, 0)
+    boolean solve();
 
     /**
      * Adds value value at position row, col.

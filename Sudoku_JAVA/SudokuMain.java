@@ -9,7 +9,7 @@ public class SudokuMain{
             }
         }
         Sudoku game = new Sudoku(); 
-        game.init(new int[9][9]);
+        game.setMatrix(new int[9][9]);
 
         SudokuView b1 = new SudokuView(game);
     }

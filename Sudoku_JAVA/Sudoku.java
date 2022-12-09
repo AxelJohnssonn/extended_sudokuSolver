@@ -78,6 +78,7 @@ public class Sudoku implements SudokuSolver{
             for(int r = 0; r < 9; r++){
                 for(int c = 0; c < 9; c++){
                     if(board[r][c] != 0){
+                        System.out.print(r+" "+c);
                         if(!legal(board[r][c], r, c)){
                             return false;
                         }
@@ -103,7 +104,7 @@ public class Sudoku implements SudokuSolver{
             return rSolve(row, col +1);
         }
 
-        for(int i = 0; i < 9; i++){
+        for(int i = 1; i <= 9; i++){
             if(legal(i, row, col)){ //kollar om värdet går att tillsätta i platsen
                 board[row][col] = i;
                 
