@@ -199,7 +199,6 @@ public class SudokuView {
                 JOptionPane.showMessageDialog(sudokuView,
                 "CRITIAL ERROR: UNSOLVABLE INPUT", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
-                outputBoard.solve();
                 colorLegends(copyBoard); // colors the numbers that where there before solve
                 updateOutputBoard();
             }
@@ -226,6 +225,9 @@ public class SudokuView {
     }
     /**
      * Help method to set all sizes of an J-object
+     * @param o The J-object
+     * @param width Width of the size of an J-object
+     * @param height Height of the size of an J-object
      */
     private void setSizeOnPanel(Object o, int width, int height) {
         if (o instanceof JTextFieldLimit) {

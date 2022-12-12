@@ -17,7 +17,7 @@ public class Sudoku implements SudokuSolver{
      * @return true if value can be placed at row, col, false otherwise
      */
     public boolean legal(int digit, int row, int col){
-
+        
         //Checks values at cols
         for(int r=0; r<9; r++){
            if(row != r && board[r][col] == digit){
@@ -97,14 +97,13 @@ public class Sudoku implements SudokuSolver{
             for(int r = 0; r < 9; r++){
                 for(int c = 0; c < 9; c++){
                     if(board[r][c] != 0){
-                        System.out.print(r+" "+c);
                         if(!legal(board[r][c], r, c)){
                             return false;
                         }
                     }
                 }
             }
-            return rSolve(0, 0);
+            return Solve(0, 0);
         }                        
 
     /**
@@ -113,7 +112,7 @@ public class Sudoku implements SudokuSolver{
      * @param col column position of the matrix
      * @return  true if solution was found, false otherwise 
      */ 
-    private boolean rSolve(int row, int col){ 
+    private boolean Solve(int row, int col){ 
         if(col == 9){
             col = 0; 
             row++;
@@ -122,14 +121,14 @@ public class Sudoku implements SudokuSolver{
             return true; 
         }
         if(board[row][col] != 0){
-            return rSolve(row, col +1);
+            return Solve(row, col +1);
         }   
 
         for(int i = 1; i <= 9; i++){
             if(legal(i, row, col)){ 
                 board[row][col] = i;
                 
-                if(rSolve(row, col+1)){ 
+                if(Solve(row, col+1)){ 
                     return true; 
                 }
             } else {
