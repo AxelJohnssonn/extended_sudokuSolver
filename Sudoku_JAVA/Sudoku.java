@@ -131,7 +131,7 @@ public class Sudoku implements SudokuSolver{
                 if(Solve(row, col+1)){ 
                     return true; 
                 }
-            } 
+            }
             board[row][col] = 0; 
         }
 
