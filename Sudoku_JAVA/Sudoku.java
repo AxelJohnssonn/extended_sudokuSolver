@@ -10,28 +10,27 @@ public class Sudoku implements SudokuSolver{
     }
 
     /**
-     * Check if it is legal to place value at row, col.
+     * Check if it is legal to place digit at row, col.
      * @return true if value can be placed at row, col, false otherwise
      */
     public boolean legal(int digit, int row, int col){
 
-        //checkar columner
+        //Checks values at cols
         for(int r=0; r<9; r++){
            if(row != r && board[r][col] == digit){
             return false;
            }
         }
-        //checkar rader
+        //Checks values at rows
         for(int c=0; c<9; c++){
             if(col != c && board[row][c] == digit){
                 return false; 
             }
         }
 
-        //checkar inom varje 3x3. Finns en känd metod att använda modulu. Ska kika på denna! //Axel     
         int x = row - row%3; 
-        int y = col - col%3;
-
+        int y = col - col%3; 
+ 
        for(int r=x; r < x+3; r++){
         for(int c=y; c < y+3; c++){
             if(board[r][c] == digit && col != c && row != r){
@@ -68,7 +67,7 @@ public class Sudoku implements SudokuSolver{
     }
     /**
      * Returns the solution.
-     * @return int matrix with a valid solution
+     * @return int matrix/board with a valid solution
      */
     public int[][] getMatrix(){
         return board; 
@@ -83,20 +82,20 @@ public class Sudoku implements SudokuSolver{
                     if(board[r][c] != 0){
                         System.out.print(r+" "+c);
                         if(!legal(board[r][c], r, c)){
-                            JOptionPane.showMessageDialog(null, "CRITICAL ERROR: UNSOLVABLE INPUT", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "ERROR: UNSOLVABLE INPUT", "ERROR", JOptionPane.ERROR_MESSAGE);
                             return false;
                         }
                     }
                 }
             }
             return rSolve(0, 0);
-        } //solve(0,0)       
+        }        
 
     /**
      * Recursive method to solve current sudoku game. 
      * @return  true if solution was found, false otherwise 
      */ 
-    private boolean rSolve(int row, int col){ //rekursiv metod som först kollar om värdet går att sätta i platsen, om det är tillåtet gör den det. Annars returnar false.
+    private boolean rSolve(int row, int col){ 
         if(col == 9){
             col = 0; 
             row++;
@@ -109,17 +108,17 @@ public class Sudoku implements SudokuSolver{
         }
 
         for(int i = 1; i <= 9; i++){
-            if(legal(i, row, col)){ //kollar om värdet går att tillsätta i platsen
+            if(legal(i, row, col)){ 
                 board[row][col] = i;
                 
-                if(rSolve(row, col+1)){ //om det gick att tillsätta nästa plats, fortsätter denna metod.
+                if(rSolve(row, col+1)){ 
                     return true; 
                 }
             }
             board[row][col] = 0; 
         }
 
-        return false; //Fanns ingen lösning. Nollställer platsen ovan. 
+        return false; 
     } 
 
     /**
@@ -141,11 +140,18 @@ public class Sudoku implements SudokuSolver{
     }
 
     /**
-     * Removes the value at row, col.
+     * Removes the digit at row, col.
+     * @param row row position of the matrix
+     * @param col col position of the matrix
      */
     public void remove(int row, int col){
         board[row][col] = 0; 
     }
+    /**
+     * Set the digit at row, col
+     * @param row row position of the matrix
+     * @param col col position of the matrix
+     */
 
     @Override
     public void set(int digit, int row, int col) {
