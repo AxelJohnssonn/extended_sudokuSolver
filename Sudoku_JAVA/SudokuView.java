@@ -2,27 +2,23 @@ package Sudoku_JAVA;
 
 import java.awt.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.filechooser.FileSystemView;
 
 public class SudokuView {
     public static boolean locked = false; // if you want to lock user inputs on sudoku
@@ -38,7 +34,7 @@ public class SudokuView {
 
     private JFrame frame;
     private JPanel sudokuView;
-
+    private SudokuScan2 sudokuScan2;
     private Sudoku outputBoard;
 
     public SudokuView(Sudoku board) {
@@ -163,15 +159,17 @@ public class SudokuView {
         JButton loadButton = new JButtonSudokuMenu("LOAD");
         menurowCenter.add(loadButton);
         loadButton.addActionListener((o) -> {
-            if (locked) {
-                return;
-            }
+            if (locked) return;
+
             Sudoku loadedBoard = getBoardFromFile();
             if (loadedBoard != null) {
                 outputBoard = loadedBoard;
                 updateOutputBoard();
+                loadButton.setText("NEXT");
+                resetBoardColor();
             } else {
-                System.out.print("Could not load");
+                JOptionPane.showMessageDialog(sudokuView,
+                "MEDIUM ERROR: CAN'T LOAD TEXT", "UNREADABLE FILE", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -210,9 +208,8 @@ public class SudokuView {
         JButtonSudokuMenu clearButton = new JButtonSudokuMenu("CLEAR");
         menurowCenter.add(clearButton);
         clearButton.addActionListener((o) -> {
-            if (locked) {
-                return;
-            }
+            if (locked) return;
+
             outputBoard.clear();
             updateOutputBoard();
         });
@@ -264,6 +261,17 @@ public class SudokuView {
         }
     }
     /**
+     * Resets the color off the whole board to the default
+     */
+    private void resetBoardColor() {
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                textFields[row][col].setFont(new Font("Verdana", Font.PLAIN, 18));
+                textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK));
+            }
+        }
+    }
+    /**
      * Method to highlight changed values of the sudoku-matrix
      * @param copyBoard The matrix before solve
      */
@@ -282,41 +290,19 @@ public class SudokuView {
         }
     }
     /**
-     * 
-     * @return
+     * Loads Sudoku (s) from file. First time this method is called is initiates the scanner
+     * @return The next Sudokuboard from the file
      */
     private Sudoku getBoardFromFile() {
-        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        int returnValue = jfc.showOpenDialog(null);
-        jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        File selectedFile;
-        int[][] board = new int[9][9];
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            selectedFile = jfc.getSelectedFile();
-            System.out.println(selectedFile.getAbsolutePath());
-        } else {
-            return null;
-        }
-        try {
-            Scanner input = new Scanner(selectedFile);
-            int row = 0;
-            while (input.hasNextLine()) {
-                String line = input.nextLine();
-                String[] number = line.split("");
-                for (String s : number) {
-                    System.out.println(s);
-                }
-                for (int col = 0; col < 9; col++) {
-                    board[row][col] = Integer.parseInt(number[col]);
-                }
-                row++;
+        if(sudokuScan2 == null) {  // If nothing has been scanned
+            sudokuScan2 = new SudokuScan2(); 
+            if (!sudokuScan2.loadBoards()) { // If no boards loaded
+                sudokuScan2 = null; 
+                return null;
             }
-            input.close();
-        } catch (FileNotFoundException e) {
-            return null;
         }
-        Sudoku sudoku = new Sudoku();
-        sudoku.setMatrix(board);
-        return sudoku;
+        
+        return sudokuScan2.getNextBoard();
+
     }
 }

@@ -10,8 +10,27 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 
 public class SudokuScan2{
+    private List<Sudoku> savedBoards;
+    private int nextIndex;
+
+    public SudokuScan2(){
+        savedBoards = new ArrayList<Sudoku>();
+        nextIndex = 0;
+    }
+
+    public Boolean loadBoards(){
+        if (savedBoards.size()>0) return true;
+        return textToMatrix();
+    }
+
+    public Sudoku getNextBoard(){
+        if (++nextIndex>=savedBoards.size()) nextIndex=0;
+        Sudoku sudoku = new Sudoku();
+        sudoku.setMatrix(savedBoards.get(nextIndex).getMatrix());
+        return sudoku;
+    }
    
-    private List<Sudoku> textToMatrix() {
+    private Boolean textToMatrix() {
         // Create a file chooser that allows the user to select a file
         JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -19,17 +38,15 @@ public class SudokuScan2{
         // Show the file chooser and check if the user selected a file
         int returnValue = fileChooser.showOpenDialog(null);
         if (returnValue != JFileChooser.APPROVE_OPTION) {
-            return null;
+            return false;
         }
     
         File selectedFile = fileChooser.getSelectedFile();
         System.out.println(selectedFile.getAbsolutePath());
     
-        // Create a list to store the Sudoku puzzles
-       ArrayList<Sudoku> sudokuList = new ArrayList<Sudoku>();
-    
         try {
             Scanner input = new Scanner(selectedFile);
+            if (!input.hasNextLine()) return false;
     
             // Read the file line by line and parse the Sudoku puzzles
             int[][] board= new int[9][9];
@@ -37,11 +54,11 @@ public class SudokuScan2{
             while (input.hasNextLine()) {
                 String line = input.nextLine();
 
-                if (line.equals(" ")) {
+                if (line.length() <3) {
                     Sudoku sudoku= new Sudoku();
                     // If the line is empty, it signals the end of the current puzzle
                     sudoku.setMatrix(board);
-                    sudokuList.add(sudoku);
+                    savedBoards.add(sudoku);
                     board = new int[9][9];
                     row = 0;
                 } else{
@@ -55,27 +72,13 @@ public class SudokuScan2{
                 }
     
             }
+            input.close();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return false;
         }
-        return sudokuList;
-    }
-    public static void main(String[] args) {
-        SudokuScan2 scan = new SudokuScan2();
-       for(Sudoku s: scan.textToMatrix()){
-        int[][] board = s.getMatrix();
-        for(int i=0;i<9;i++){
-            for(int j=0;j<9;j++){
-                System.out.print(board[i][j]);
-            }
-            System.out.println( "--");
-        }
-    
-
-       }
         
-    
-        
+        return true;
     }
-    
 }
