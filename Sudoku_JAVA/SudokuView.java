@@ -227,7 +227,7 @@ public class SudokuView {
         frame.setVisible(true);
     }
     /**
-     * Help method to set alla sizes of an J-object
+     * Help method to set all sizes of an J-object
      */
     private void setSizeOnPanel(Object o, int width, int height) {
         if (o instanceof JTextFieldLimit) {

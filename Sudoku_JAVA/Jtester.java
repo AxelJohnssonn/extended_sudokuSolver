@@ -50,9 +50,9 @@ import org.junit.jupiter.api.Timeout;
     }
 
     @Test
-   public void testSolveBoardFromFig1() {
-   Sudoku sudoku = new Sudoku();
-   Sudoku sudoku2 = new Sudoku();
+    public void testSolveBoardFromFig1() {
+    Sudoku sudoku = new Sudoku();
+    Sudoku sudoku2 = new Sudoku();
         int[][] grid = new int[][]{
                 {0, 0, 8, 0, 0, 9, 0, 6, 2},
                 {0, 0, 0, 0, 0, 0, 0, 0, 5},

@@ -11,6 +11,9 @@ public class Sudoku implements SudokuSolver{
 
     /**
      * Check if it is legal to place digit at row, col.
+     * @param digit Value that needs to be checked if legal
+     * @param row row position in the matrix
+     * @param col column position in the matrix 
      * @return true if value can be placed at row, col, false otherwise
      */
     public boolean legal(int digit, int row, int col){
@@ -44,6 +47,8 @@ public class Sudoku implements SudokuSolver{
 
     /**
      * Check if the position at row, col has a start value
+     * @param row row position in the matrix
+     * @param col column position in the matrix 
      * @return true if the position has no start value, false otherwise
      */
     public boolean checkIfEmpty(int row, int col){
@@ -57,6 +62,7 @@ public class Sudoku implements SudokuSolver{
 
     /**
      * Initializes the board with values in the matrix start.
+     * @param matrix matrix board with input values
      * @throws IllegalArgumentException if matrix has the wrong dimension or contains
 	 *                                  values outside the range [0..9]
      */
@@ -80,6 +86,7 @@ public class Sudoku implements SudokuSolver{
      * @return int matrix/board with a valid solution
      */
     public int[][] getMatrix(){
+        //board.solve() 
         return board; 
     }
     /**
@@ -103,6 +110,8 @@ public class Sudoku implements SudokuSolver{
 
     /**
      * Recursive method to solve current sudoku game. 
+     * @param row row position of the matrix
+     * @param col column position of the matrix
      * @return  true if solution was found, false otherwise 
      */ 
     private boolean rSolve(int row, int col){ 
@@ -132,10 +141,12 @@ public class Sudoku implements SudokuSolver{
     } 
 
     /**
-     * Adds value value at position row, col.
+     * Set the digit at row, col
+     * @param row row position of the matrix
+     * @param col column position of the matrix
      */
-    public void add(int row, int col, int value){
-        board[row][col] = value; 
+    public void set(int digit, int row, int col) {
+        board[row][col] = digit;     
     }
 
     /**
@@ -152,20 +163,10 @@ public class Sudoku implements SudokuSolver{
     /**
      * Removes the digit at row, col.
      * @param row row position of the matrix
-     * @param col col position of the matrix
+     * @param col column position of the matrix
      */
     public void remove(int row, int col){
         board[row][col] = 0; 
-    }
-    /**
-     * Set the digit at row, col
-     * @param row row position of the matrix
-     * @param col col position of the matrix
-     */
-
-    @Override
-    public void set(int digit, int row, int col) {
-        board[row][col] = digit;     
     }
 
     
