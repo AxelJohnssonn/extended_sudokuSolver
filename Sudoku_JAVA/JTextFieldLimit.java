@@ -1,5 +1,10 @@
 package Sudoku_JAVA;
 
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Insets;
+
+import javax.swing.BorderFactory;
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -12,6 +17,10 @@ public class JTextFieldLimit extends JTextField {
     public JTextFieldLimit() {
         super();
         this.limit = 1;
+        this.setFont(new Font("Verdana", Font.PLAIN, 18));
+        this.setMargin(new Insets(0, 0, 0, 0));
+        this.setForeground(Color.decode(SudokuView.TEXT_COLOR_DARK));
+        this.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
     }
     
     @Override

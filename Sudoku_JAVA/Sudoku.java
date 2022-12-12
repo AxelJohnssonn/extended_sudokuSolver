@@ -99,7 +99,6 @@ public class Sudoku implements SudokuSolver{
                     if(board[r][c] != 0){
                         System.out.print(r+" "+c);
                         if(!legal(board[r][c], r, c)){
-                            JOptionPane.showMessageDialog(null, "CRITIAL ERROR: UNSOLVABLE INPUT", "ERROR", JOptionPane.ERROR_MESSAGE);
                             return false;
                         }
                     }
