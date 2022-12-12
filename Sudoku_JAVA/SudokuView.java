@@ -24,7 +24,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileSystemView;
 
 public class SudokuView {
-    public static boolean locked = false; // if you want to lock user inputs on suduko
+    public static boolean locked = false; // if you want to lock user inputs on sudoku
     public static final String BASE_COLOR = "#6f73d2";
     public static final String HIGHLIGHT_COLOR = "#9dacff";
     public static final String BORDER_COLOR = "#2A0154";
@@ -36,13 +36,13 @@ public class SudokuView {
     private JTextFieldLimit[][] textFields = new JTextFieldLimit[9][9];
 
     private JFrame frame;
-    private JPanel sudukoView;
+    private JPanel sudokuView;
 
     private Sudoku outputBoard;
 
     public SudokuView(Sudoku board) {
         outputBoard = board;
-        SwingUtilities.invokeLater(() -> createWindow("Suduko", 515, 600));
+        SwingUtilities.invokeLater(() -> createWindow("Sudoku", 515, 600));
     }
     /**
      * Method to initializes the GUI
@@ -63,7 +63,6 @@ public class SudokuView {
         // ------------------------------------------------------------------------
         // START top title row
         JPanel topPanel = new JPanel(new FlowLayout());
-        topPanel.setBackground(Color.decode(DARK_BG_COLOR));
         setSizeOnPanel(topPanel,200,120);
         pane.add(topPanel, BorderLayout.NORTH);
 
@@ -78,38 +77,34 @@ public class SudokuView {
         // ------------------------------------------------------------------------
 
         // ------------------------------------------------------------------------
-        // START center suduko holder panel
-        sudukoView = new JPanel();
-        sudukoView.setLayout(new GridLayout(0, 1, 0, 3)); // stacks the flowlayout rows
-        sudukoView.setBackground(Color.decode(BORDER_COLOR));
-        setSizeOnPanel(sudukoView,500,300);
-        sudukoView.setBorder(BorderFactory.createCompoundBorder(sudukoView.getBorder(),
+        // START center sudoku holder panel
+        sudokuView = new JPanel();
+        sudokuView.setLayout(new GridLayout(0, 1, 0, 3)); // stacks the flowlayout rows
+        setSizeOnPanel(sudokuView,500,300);
+        sudokuView.setBackground(Color.decode(BORDER_COLOR));
+        sudokuView.setBorder(BorderFactory.createCompoundBorder(sudokuView.getBorder(),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        pane.add(sudukoView, BorderLayout.CENTER); // input sudoko is left/west
+        pane.add(sudokuView, BorderLayout.CENTER); // input sudoko is left/west
 
-        // the suduko variables
-        Insets zeroMargin = new Insets(0, 0, 0, 0); // remove standard margins
-        JPanel[] sudukoRow = new JPanel[9]; // create the rows
+        // the sudoku variables
+        JPanel[] sudokuRow = new JPanel[9]; // create the rows
         Set<Integer> coloredEdge = new HashSet<Integer>(Arrays.asList(0, 1, 2, 6, 7, 8));
         Set<Integer> coloredCenter = new HashSet<Integer>(Arrays.asList(3, 4, 5));
 
         int[][] boardNumber = outputBoard.getMatrix();
 
         for (int row = 0; row < 9; row++) {
-            sudukoRow[row] = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 0));
-            sudukoRow[row].setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-            sudukoRow[row].setBackground(Color.decode(BORDER_COLOR));
-            sudukoView.add(sudukoRow[row]);
+            sudokuRow[row] = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 0));
+            sudokuRow[row].setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            sudokuRow[row].setBackground(Color.decode(BORDER_COLOR));
+            sudokuView.add(sudokuRow[row]);
 
             for (int col = 0; col < 9; col++) {
                 textFields[row][col] = new JTextFieldLimit();
-                if (boardNumber[row][col]!=0) {
-                    textFields[row][col].setText(Integer.toString(boardNumber[row][col]));
-                }
-                textFields[row][col].setFont(new Font("Verdana", Font.PLAIN, 18));
-                textFields[row][col].setMargin(zeroMargin);
-                textFields[row][col].setBorder(BorderFactory.createCompoundBorder(textFields[row][col].getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
                 setSizeOnPanel(textFields[row][col], 40 , 40);
+                if (boardNumber[row][col]!=0) {
+                    textFields[row][col].setText(boardNumber[row][col]+"");
+                }
 
                 // color squares background depending on if they are in the set
                 if (coloredCenter.contains(row) && coloredCenter.contains(col)
@@ -118,10 +113,8 @@ public class SudokuView {
                 } else {
                     textFields[row][col].setBackground(Color.decode(BASE_COLOR));
                 }
-
-                textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK));
                  
-                sudukoRow[row].add(textFields[row][col]);
+                sudokuRow[row].add(textFields[row][col]);
             }
         }
 
@@ -133,13 +126,11 @@ public class SudokuView {
 
         JPanel leftSide = new JPanel();
         setSizeOnPanel(leftSide, 50 , 300);
-        leftSide.setBackground(Color.decode(DARK_BG_COLOR));
         pane.add(leftSide, BorderLayout.WEST);
 
         // (right)
         JPanel rightSide = new JPanel();
         setSizeOnPanel(rightSide, 50 , 300);
-        rightSide.setBackground(Color.decode(DARK_BG_COLOR));
         pane.add(rightSide, BorderLayout.EAST);
 
         // (flames)
@@ -159,7 +150,6 @@ public class SudokuView {
         // ------------------------------------------------------------------------
         // START bottom menu panel holder
         JPanel menurow = new JPanel(new FlowLayout());
-        menurow.setBackground(Color.decode(DARK_BG_COLOR));
         setSizeOnPanel(menurow,200,100);
         pane.add(menurow, BorderLayout.SOUTH);
 
@@ -191,7 +181,7 @@ public class SudokuView {
                 return;
             }
             locked = true; //prevent other buttons from working
-            sudukoView.setBackground(Color.YELLOW);
+            sudokuView.setBackground(Color.YELLOW);
             int[][] copyBoard = new int[9][9]; //save nonempty squares
             for (int row = 0 ; row<9 ; row++) {
                 for (int col = 0; col<9 ; col++) {
@@ -207,7 +197,7 @@ public class SudokuView {
             colorLegends(copyBoard); // colors the numbers that where there before solve
             updateOutputBoard();
             locked = false; // realease buttons
-            sudukoView.setBackground(Color.decode(BORDER_COLOR)); 
+            sudokuView.setBackground(Color.decode(BORDER_COLOR)); 
         });
 
         JButtonSudokuMenu clearButton = new JButtonSudokuMenu("CLEAR");
@@ -235,18 +225,21 @@ public class SudokuView {
             panel.setPreferredSize(new Dimension(width, height));
             panel.setMinimumSize(new Dimension(width, height));
             panel.setMaximumSize(new Dimension(width, height));
+            panel.setBackground(Color.decode(DARK_BG_COLOR));
         }
         if (o instanceof JPanel) {
             JPanel panel = (JPanel) o;
             panel.setPreferredSize(new Dimension(width, height));
             panel.setMinimumSize(new Dimension(width, height));
             panel.setMaximumSize(new Dimension(width, height));
+            panel.setBackground(Color.decode(DARK_BG_COLOR));
         }
         if (o instanceof JFrame) {
             JFrame panel = (JFrame) o;
             panel.setPreferredSize(new Dimension(width, height));
             panel.setMinimumSize(new Dimension(width, height));
             panel.setMaximumSize(new Dimension(width, height));
+            panel.setBackground(Color.decode(DARK_BG_COLOR));
         }
     }
     /**
@@ -312,8 +305,8 @@ public class SudokuView {
         } catch (FileNotFoundException e) {
             return null;
         }
-        Sudoku suduko = new Sudoku();
-        suduko.setMatrix(board);
-        return suduko;
+        Sudoku sudoku = new Sudoku();
+        sudoku.setMatrix(board);
+        return sudoku;
     }
 }
