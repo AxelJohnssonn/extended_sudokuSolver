@@ -117,6 +117,20 @@ import org.junit.jupiter.api.Timeout;
         Thread.sleep(10000);
         return "oops";
     }
+    
+    @Test
+    public void testSet(){
+        sudoku.set(9,5,5);
+        assertEquals(9, sudoku.getMatrix()[5][5],"Wrong value when adding digit into matrix");
+    }
+
+    @Test
+    public void testClear(){
+        sudoku.set(9, 5, 5);
+        assertEquals(9, sudoku.getMatrix()[5][5],"Wrong value when adding digit into matrix");
+        sudoku.clear();
+        assertEquals(0, sudoku.getMatrix()[5][5], "Did not clear the digit");
+    }
 
 
 
