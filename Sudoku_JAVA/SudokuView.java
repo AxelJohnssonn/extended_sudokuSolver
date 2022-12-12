@@ -42,7 +42,7 @@ public class SudokuView {
 
     public SudokuView(Sudoku board) {
         outputBoard = board;
-        SwingUtilities.invokeLater(() -> createWindow("Suduko", 597, 600));
+        SwingUtilities.invokeLater(() -> createWindow("Suduko", 515, 600));
     }
     /**
      * Method to initializes the GUI
@@ -55,8 +55,8 @@ public class SudokuView {
         frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(width, height));
-        frame.setMaximumSize(new Dimension(width, height)); 
-        frame.setMinimumSize(new Dimension(width, height)); 
+        frame.setMaximumSize(new Dimension(width, height));
+        frame.setMinimumSize(new Dimension(width, height));
         frame.setResizable(false);
         Container pane = frame.getContentPane();
         pane.setLayout(new BorderLayout());
@@ -184,11 +184,7 @@ public class SudokuView {
         menurowCenter.setBackground(Color.decode(DARK_BG_COLOR));
         menurow.add(menurowCenter);
 
-        JButton loadButton = new JButton("LOAD");
-        loadButton.setHorizontalAlignment(SwingConstants.CENTER);
-        loadButton.setBackground(Color.decode(DARK_BG_COLOR));
-        loadButton.setForeground(Color.decode(TEXT_COLOR_LIGHT));
-        loadButton.setFont(new Font("Papyrus", Font.BOLD, 15));
+        JButton loadButton = new JButtonSudokuMenu("LOAD");
         menurowCenter.add(loadButton);
         loadButton.addActionListener((o) -> {
             if (locked) {
@@ -203,11 +199,7 @@ public class SudokuView {
             }
         });
 
-        JButton solveButton = new JButton("SOLVE");
-        solveButton.setHorizontalAlignment(SwingConstants.CENTER);
-        solveButton.setFont(new Font("Papyrus", Font.BOLD, 15));
-        solveButton.setBackground(Color.decode(DARK_BG_COLOR));
-        solveButton.setForeground(Color.decode(TEXT_COLOR_LIGHT));
+        JButton solveButton = new JButtonSudokuMenu("SOLVE");
         menurowCenter.add(solveButton);
         solveButton.addActionListener((o) -> {
             if (locked){
@@ -233,11 +225,7 @@ public class SudokuView {
             sudukoView.setBackground(Color.decode(BORDER_COLOR)); 
         });
 
-        JButton clearButton = new JButton("CLEAR");
-        clearButton.setHorizontalAlignment(SwingConstants.CENTER);
-        clearButton.setFont(new Font("Papyrus", Font.BOLD, 15));
-        clearButton.setBackground(Color.decode(DARK_BG_COLOR));
-        clearButton.setForeground(Color.decode(TEXT_COLOR_LIGHT));
+        JButtonSudokuMenu clearButton = new JButtonSudokuMenu("CLEAR");
         menurowCenter.add(clearButton);
         clearButton.addActionListener((o) -> {
             if (locked) {
