@@ -54,9 +54,7 @@ public class SudokuView {
         // main frame
         frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(width, height));
-        frame.setMaximumSize(new Dimension(width, height));
-        frame.setMinimumSize(new Dimension(width, height));
+        setSizeOnPanel(frame,width,height);
         frame.setResizable(false);
         Container pane = frame.getContentPane();
         pane.setLayout(new BorderLayout());
@@ -66,9 +64,7 @@ public class SudokuView {
         // START top title row
         JPanel topPanel = new JPanel(new FlowLayout());
         topPanel.setBackground(Color.decode(DARK_BG_COLOR));
-        topPanel.setPreferredSize(new Dimension(200, 120));
-        topPanel.setMinimumSize(new Dimension(200, 120));
-        topPanel.setMaximumSize(new Dimension(200, 120));
+        setSizeOnPanel(topPanel,200,120);
         pane.add(topPanel, BorderLayout.NORTH);
 
         JLabel titleText = new JLabel("SUDOKU  SOLVER");
@@ -86,9 +82,7 @@ public class SudokuView {
         sudukoView = new JPanel();
         sudukoView.setLayout(new GridLayout(0, 1, 0, 3)); // stacks the flowlayout rows
         sudukoView.setBackground(Color.decode(BORDER_COLOR));
-        sudukoView.setPreferredSize(new Dimension(500, 300));
-        sudukoView.setMinimumSize(new Dimension(500, 300));
-        sudukoView.setMaximumSize(new Dimension(500, 300));
+        setSizeOnPanel(sudukoView,500,300);
         sudukoView.setBorder(BorderFactory.createCompoundBorder(sudukoView.getBorder(),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         pane.add(sudukoView, BorderLayout.CENTER); // input sudoko is left/west
@@ -115,9 +109,7 @@ public class SudokuView {
                 textFields[row][col].setFont(new Font("Verdana", Font.PLAIN, 18));
                 textFields[row][col].setMargin(zeroMargin);
                 textFields[row][col].setBorder(BorderFactory.createCompoundBorder(textFields[row][col].getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
-                textFields[row][col].setPreferredSize(new Dimension(40, 40));
-                textFields[row][col].setMinimumSize(new Dimension(40,40));
-                textFields[row][col].setMaximumSize(new Dimension(40,40));
+                setSizeOnPanel(textFields[row][col], 40 , 40);
 
                 // color squares background depending on if they are in the set
                 if (coloredCenter.contains(row) && coloredCenter.contains(col)
@@ -129,7 +121,6 @@ public class SudokuView {
 
                 textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK));
                  
-
                 sudukoRow[row].add(textFields[row][col]);
             }
         }
@@ -141,17 +132,13 @@ public class SudokuView {
         // START side images (left)
 
         JPanel leftSide = new JPanel();
-        leftSide.setPreferredSize(new Dimension(50, 300));
-        leftSide.setMinimumSize(new Dimension(50, 300));
-        leftSide.setMaximumSize(new Dimension(50, 300));
+        setSizeOnPanel(leftSide, 50 , 300);
         leftSide.setBackground(Color.decode(DARK_BG_COLOR));
         pane.add(leftSide, BorderLayout.WEST);
 
         // (right)
         JPanel rightSide = new JPanel();
-        rightSide.setPreferredSize(new Dimension(50, 300));
-        rightSide.setMinimumSize(new Dimension(50, 300));
-        rightSide.setMaximumSize(new Dimension(50, 300));
+        setSizeOnPanel(rightSide, 50 , 300);
         rightSide.setBackground(Color.decode(DARK_BG_COLOR));
         pane.add(rightSide, BorderLayout.EAST);
 
@@ -173,9 +160,7 @@ public class SudokuView {
         // START bottom menu panel holder
         JPanel menurow = new JPanel(new FlowLayout());
         menurow.setBackground(Color.decode(DARK_BG_COLOR));
-        menurow.setPreferredSize(new Dimension(200, 100));
-        menurow.setMinimumSize(new Dimension(200, 100));
-        menurow.setMaximumSize(new Dimension(200, 100));
+        setSizeOnPanel(menurow,200,100);
         pane.add(menurow, BorderLayout.SOUTH);
 
         JPanel menurowCenter = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
@@ -240,6 +225,29 @@ public class SudokuView {
         // create window
         frame.pack();
         frame.setVisible(true);
+    }
+    /**
+     * Help method to set alla sizes of an J-object
+     */
+    private void setSizeOnPanel(Object o, int width, int height) {
+        if (o instanceof JTextFieldLimit) {
+            JTextFieldLimit panel = (JTextFieldLimit) o;
+            panel.setPreferredSize(new Dimension(width, height));
+            panel.setMinimumSize(new Dimension(width, height));
+            panel.setMaximumSize(new Dimension(width, height));
+        }
+        if (o instanceof JPanel) {
+            JPanel panel = (JPanel) o;
+            panel.setPreferredSize(new Dimension(width, height));
+            panel.setMinimumSize(new Dimension(width, height));
+            panel.setMaximumSize(new Dimension(width, height));
+        }
+        if (o instanceof JFrame) {
+            JFrame panel = (JFrame) o;
+            panel.setPreferredSize(new Dimension(width, height));
+            panel.setMinimumSize(new Dimension(width, height));
+            panel.setMaximumSize(new Dimension(width, height));
+        }
     }
     /**
      * Updates the board
