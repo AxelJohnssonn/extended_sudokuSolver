@@ -82,7 +82,7 @@ public class Sudoku implements SudokuSolver{
                     if(board[r][c] != 0){
                         System.out.print(r+" "+c);
                         if(!legal(board[r][c], r, c)){
-                            JOptionPane.showMessageDialog(null, "ERROR: UNSOLVABLE INPUT", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "CRITIAL ERROR: UNSOLVABLE INPUT", "ERROR", JOptionPane.ERROR_MESSAGE);
                             return false;
                         }
                     }
@@ -105,8 +105,8 @@ public class Sudoku implements SudokuSolver{
         }
         if(board[row][col] != 0){
             return rSolve(row, col +1);
-        }
-
+        }   
+            
         for(int i = 1; i <= 9; i++){
             if(legal(i, row, col)){ 
                 board[row][col] = i;

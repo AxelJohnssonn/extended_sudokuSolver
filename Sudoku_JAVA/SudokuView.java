@@ -44,14 +44,19 @@ public class SudokuView {
         outputBoard = board;
         SwingUtilities.invokeLater(() -> createWindow("Suduko", 597, 600));
     }
-
+    /**
+     * Method to initializes the GUI
+     * @param title The title of the window
+     * @param width The width of the window
+     * @param height The height of the window
+     */
     private void createWindow(String title, int width, int height) {
         // main frame
         frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(width, height)); // UNSURE IF NEEDED
-        frame.setMaximumSize(new Dimension(width, height)); // UNSURE IF NEEDED
-        frame.setMinimumSize(new Dimension(width, height)); // UNSURE IF NEEDED
+        frame.setPreferredSize(new Dimension(width, height));
+        frame.setMaximumSize(new Dimension(width, height)); 
+        frame.setMinimumSize(new Dimension(width, height)); 
         frame.setResizable(false);
         Container pane = frame.getContentPane();
         pane.setLayout(new BorderLayout());
@@ -128,7 +133,6 @@ public class SudokuView {
                 sudukoRow[row].add(textFields[row][col]);
             }
         }
-        // TODO filter textfield input
 
         // END center panel
         // ------------------------------------------------------------------------
@@ -221,14 +225,8 @@ public class SudokuView {
                     }
                 }
             }
-            // save pre
-            // - LÄGG TILL SOLVER!
-            //outputBoard.add(0, 8, 5);
             outputBoard.setMatrix(copyBoard);
             outputBoard.solve();
-            System.out.print(" ute ");
-            //- slut solver
-            // color pre
             colorLegends(copyBoard); // colors the numbers that where there before solve
             updateOutputBoard();
             locked = false; // realease buttons
@@ -255,7 +253,9 @@ public class SudokuView {
         frame.pack();
         frame.setVisible(true);
     }
-
+    /**
+     * Updates the board
+     */
     private void updateOutputBoard() {
         int[][] board = outputBoard.getMatrix();
         for (int row = 0; row < 9; row++) {
@@ -264,7 +264,10 @@ public class SudokuView {
             }
         }
     }
-
+    /**
+     * Method to highlight changed values of the sudoku-matrix
+     * @param copyBoard The matrix before solve
+     */
     private void colorLegends(int[][] copyBoard) {
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
@@ -279,7 +282,10 @@ public class SudokuView {
             }
         }
     }
-
+    /**
+     * 
+     * @return
+     */
     private Sudoku getBoardFromFile() {
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         int returnValue = jfc.showOpenDialog(null);
@@ -314,16 +320,4 @@ public class SudokuView {
         suduko.setMatrix(board);
         return suduko;
     }
-
-    public Sudoku getOutputBoard() {
-        return outputBoard;
-    }
-
-    public void setOutputBoard(int[][] newBoard) {
-        outputBoard = new Sudoku();
-        outputBoard.setMatrix(newBoard);
-    }
-
-    // --------------------------------------------------------------------------------
-
 }
