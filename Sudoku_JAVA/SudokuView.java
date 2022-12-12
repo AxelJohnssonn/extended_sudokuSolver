@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -177,10 +178,9 @@ public class SudokuView {
         JButton solveButton = new JButtonSudokuMenu("SOLVE");
         menurowCenter.add(solveButton);
         solveButton.addActionListener((o) -> {
-            if (locked){
-                return;
-            }
+            if (locked) return;
             locked = true; //prevent other buttons from working
+            
             sudokuView.setBackground(Color.YELLOW);
             int[][] copyBoard = new int[9][9]; //save nonempty squares
             for (int row = 0 ; row<9 ; row++) {
@@ -192,10 +192,18 @@ public class SudokuView {
                     }
                 }
             }
+
             outputBoard.setMatrix(copyBoard);
-            outputBoard.solve();
-            colorLegends(copyBoard); // colors the numbers that where there before solve
-            updateOutputBoard();
+
+            if (!outputBoard.solve()) {
+                JOptionPane.showMessageDialog(sudokuView,
+                "CRITIAL ERROR: UNSOLVABLE INPUT", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else {
+                outputBoard.solve();
+                colorLegends(copyBoard); // colors the numbers that where there before solve
+                updateOutputBoard();
+            }
+            
             locked = false; // realease buttons
             sudokuView.setBackground(Color.decode(BORDER_COLOR)); 
         });
