@@ -112,7 +112,7 @@ public class SudokuView {
                 if (boardNumber[row][col]!=0) {
                     textFields[row][col].setText(Integer.toString(boardNumber[row][col]));
                 }
-                textFields[row][col].setFont(new Font("Verdana", Font.BOLD, 18));
+                textFields[row][col].setFont(new Font("Verdana", Font.PLAIN, 18));
                 textFields[row][col].setMargin(zeroMargin);
                 textFields[row][col].setBorder(BorderFactory.createCompoundBorder(textFields[row][col].getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
                 textFields[row][col].setPreferredSize(new Dimension(40, 40));
@@ -260,10 +260,10 @@ public class SudokuView {
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 if (copyBoard[row][col] == outputBoard.getMatrix()[row][col]) { // old number
-                    textFields[row][col].setFont(new Font("Verdana", Font.BOLD, 18));
+                    textFields[row][col].setFont(new Font("Verdana", Font.PLAIN, 18));
                     textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK));
                 } else { // new number
-                    textFields[row][col].setFont(new Font("Verdana", Font.PLAIN, 18));
+                    textFields[row][col].setFont(new Font("Verdana", Font.BOLD, 18));
                     textFields[row][col].setForeground(Color.decode(TEXT_COLOR_DARK_HIGHLIGHT));
                 }
 
