@@ -57,8 +57,18 @@ public class Sudoku implements SudokuSolver{
 
     /**
      * Initializes the board with values in the matrix start.
+     * @throws IllegalArgumentException if matrix has the wrong dimension or contains
+	 *                                  values outside the range [0..9]
      */
     public void setMatrix(int[][] matrix){
+        for(int r=0; r<9; r++){
+            for(int c=0; c<9; c++){
+                if(matrix[r][c] > 9 || matrix[r][c] < 0 || board.length > 9 || board[0].length > 9){
+                    throw new IllegalArgumentException();
+                }
+            }
+        }
+
         for(int r=0; r<9; r++){
             for(int c=0; c<9; c++){
                 board[r][c] = matrix[r][c]; 
@@ -89,7 +99,7 @@ public class Sudoku implements SudokuSolver{
                 }
             }
             return rSolve(0, 0);
-        }        
+        }                        
 
     /**
      * Recursive method to solve current sudoku game. 
@@ -106,7 +116,7 @@ public class Sudoku implements SudokuSolver{
         if(board[row][col] != 0){
             return rSolve(row, col +1);
         }   
-            
+
         for(int i = 1; i <= 9; i++){
             if(legal(i, row, col)){ 
                 board[row][col] = i;
