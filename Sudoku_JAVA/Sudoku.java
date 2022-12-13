@@ -3,8 +3,6 @@ package Sudoku_JAVA;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import javax.swing.JOptionPane;
-
 public class Sudoku implements SudokuSolver{
     private int[][] board;
 

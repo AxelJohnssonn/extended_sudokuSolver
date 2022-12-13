@@ -165,7 +165,7 @@ public class SudokuView {
             if (loadedBoard != null) {
                 outputBoard = loadedBoard;
                 updateOutputBoard();
-                loadButton.setText(" ("+getIndexOfBoard()+") NEXT");
+                loadButton.setText("("+getIndexOfBoard()+") NEXT");
                 resetBoardColor();
             } else {
                 JOptionPane.showMessageDialog(sudokuView,
