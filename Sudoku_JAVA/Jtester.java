@@ -1,6 +1,7 @@
 package Sudoku_JAVA;  
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -119,13 +120,13 @@ import org.junit.jupiter.api.Timeout;
     }
     
     @Test
-    public void testSet(){
+    public void testSetSquare(){
         sudoku.set(9,5,5);
         assertEquals(9, sudoku.getMatrix()[5][5],"Wrong value when adding digit into matrix");
     }
 
     @Test
-    public void testRemove(){
+    public void testRemoveSquare(){
         sudoku.set(9, 5, 5);
         assertEquals(9, sudoku.getMatrix()[5][5],"Wrong value when adding digit into matrix");
         sudoku.remove(5, 5);
@@ -133,26 +134,33 @@ import org.junit.jupiter.api.Timeout;
     }
 
     @Test
-    public void testClear(){
+    public void testClearGrid(){
         sudoku.set(9, 5, 5);
         assertEquals(9, sudoku.getMatrix()[5][5],"Wrong value when adding digit into matrix");
         sudoku.clear();
         assertEquals(0, sudoku.getMatrix()[5][5], "Did not clear the digit");
     }
     @Test 
-    public void checkIfEmpty(){
+    public void checkIfEmptySquare(){
         sudoku.set(1, 0, 0);
         assertEquals(1, sudoku.getMatrix()[0][0], "The board is empty");
         sudoku.clear();
         assertTrue(sudoku.checkIfEmpty(0, 0), "The board is not empty");
     }
     @Test
-    public void checkLegal(){
+    public void checkLegalSquare(){
         sudoku.set(1,0,0);
         assertTrue(sudoku.legal(1,0,0),"The board is not legal");
         assertFalse(sudoku.legal(1,0,1),"The board is legal");
         sudoku.clear();
         assertTrue(sudoku.legal(1,0,0),"The board is not legal");
+    }
+
+    @Test
+    public void testAddWrongNumberToSquare(){
+        sudoku.set(10, 0, 0);
+        assertNotEquals(10, sudoku.getMatrix()[0][0], "The board is not legal");
+
     }
 
 

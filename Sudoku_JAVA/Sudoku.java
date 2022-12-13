@@ -1,5 +1,7 @@
 package Sudoku_JAVA;
 
+import java.util.HashSet;
+
 import javax.swing.JOptionPane;
 
 public class Sudoku implements SudokuSolver{
@@ -144,7 +146,14 @@ public class Sudoku implements SudokuSolver{
      * @param col column position of the matrix
      */
     public void set(int digit, int row, int col) {
-        board[row][col] = digit;     
+        HashSet <Integer> set = new HashSet<Integer>();
+        for (int i = 1; i <= 9; i++) {
+            set.add(i);
+        }
+        if(set.contains(digit)){
+            board[row][col] = digit;  
+        }
+           
     }
 
     /**
