@@ -17,16 +17,25 @@ public class SudokuScan2{
         savedBoards = new ArrayList<Sudoku>();
         nextIndex = 0;
     }
-
+    /**
+     * Load the scanner with new Boards
+     * @return true if load is successful
+     */
     public Boolean loadBoards(){
         if (savedBoards.size()>0) return true;
         return textToMatrix();
     }
-
+    /**
+     * Get the index of the current visible Board
+     * @return index of the Board
+     */
     public int getIndex(){
         return nextIndex;
     }
-
+    /**
+     * Get the next board to be solved
+     * @return the next Board
+     */
     public Sudoku getNextBoard(){
         if (nextIndex>=savedBoards.size()) nextIndex=0;
         Sudoku sudoku = new Sudoku();
