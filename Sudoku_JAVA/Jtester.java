@@ -125,13 +125,35 @@ import org.junit.jupiter.api.Timeout;
     }
 
     @Test
+    public void testRemove(){
+        sudoku.set(9, 5, 5);
+        assertEquals(9, sudoku.getMatrix()[5][5],"Wrong value when adding digit into matrix");
+        sudoku.remove(5, 5);
+        assertEquals(0, sudoku.getMatrix()[5][5], "Did not remove the digit");
+    }
+
+    @Test
     public void testClear(){
         sudoku.set(9, 5, 5);
         assertEquals(9, sudoku.getMatrix()[5][5],"Wrong value when adding digit into matrix");
         sudoku.clear();
         assertEquals(0, sudoku.getMatrix()[5][5], "Did not clear the digit");
     }
-
+    @Test 
+    public void checkIfEmpty(){
+        sudoku.set(1, 0, 0);
+        assertEquals(1, sudoku.getMatrix()[0][0], "The board is empty");
+        sudoku.clear();
+        assertTrue(sudoku.checkIfEmpty(0, 0), "The board is not empty");
+    }
+    @Test
+    public void checkLegal(){
+        sudoku.set(1,0,0);
+        assertTrue(sudoku.legal(1,0,0),"The board is not legal");
+        assertFalse(sudoku.legal(1,0,1),"The board is legal");
+        sudoku.clear();
+        assertTrue(sudoku.legal(1,0,0),"The board is not legal");
+    }
 
 
   
