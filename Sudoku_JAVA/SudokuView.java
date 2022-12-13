@@ -227,22 +227,8 @@ public class SudokuView {
      * @param height Height of the size of an J-object
      */
     private void setSizeOnPanel(Object o, int width, int height) {
-        if (o instanceof JTextFieldLimit) {
-            JTextFieldLimit panel = (JTextFieldLimit) o;
-            panel.setPreferredSize(new Dimension(width, height));
-            panel.setMinimumSize(new Dimension(width, height));
-            panel.setMaximumSize(new Dimension(width, height));
-            panel.setBackground(Color.decode(DARK_BG_COLOR));
-        }
-        if (o instanceof JPanel) {
-            JPanel panel = (JPanel) o;
-            panel.setPreferredSize(new Dimension(width, height));
-            panel.setMinimumSize(new Dimension(width, height));
-            panel.setMaximumSize(new Dimension(width, height));
-            panel.setBackground(Color.decode(DARK_BG_COLOR));
-        }
-        if (o instanceof JFrame) {
-            JFrame panel = (JFrame) o;
+        if (o instanceof Container) { // Shared between JFrame, JPanel and  JTextField
+            Container panel = (Container) o;
             panel.setPreferredSize(new Dimension(width, height));
             panel.setMinimumSize(new Dimension(width, height));
             panel.setMaximumSize(new Dimension(width, height));
