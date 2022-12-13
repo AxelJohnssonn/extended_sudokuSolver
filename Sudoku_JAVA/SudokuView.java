@@ -165,7 +165,7 @@ public class SudokuView {
             if (loadedBoard != null) {
                 outputBoard = loadedBoard;
                 updateOutputBoard();
-                loadButton.setText("NEXT");
+                loadButton.setText(" ("+getIndexOfBoard()+") NEXT");
                 resetBoardColor();
             } else {
                 JOptionPane.showMessageDialog(sudokuView,
@@ -290,5 +290,12 @@ public class SudokuView {
         
         return sudokuScan2.getNextBoard();
 
+    }
+    /**
+     * Get the boards index from lists of Sudokus
+     * @return The Sudokuboards index
+     */
+    private String getIndexOfBoard() {
+        return sudokuScan2.getIndex()+"";
     }
 }

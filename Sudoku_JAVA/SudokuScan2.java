@@ -23,10 +23,15 @@ public class SudokuScan2{
         return textToMatrix();
     }
 
+    public int getIndex(){
+        return nextIndex;
+    }
+
     public Sudoku getNextBoard(){
-        if (++nextIndex>=savedBoards.size()) nextIndex=0;
+        if (nextIndex>=savedBoards.size()) nextIndex=0;
         Sudoku sudoku = new Sudoku();
         sudoku.setMatrix(savedBoards.get(nextIndex).getMatrix());
+        nextIndex++;
         return sudoku;
     }
    
