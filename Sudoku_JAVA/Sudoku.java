@@ -33,10 +33,10 @@ public class Sudoku implements SudokuSolver{
                 return false; 
             }
         }
-
+        //Checks values at 3x3
         int x = row - row%3; 
         int y = col - col%3; 
- 
+        
        for(int r=x; r < x+3; r++){
         for(int c=y; c < y+3; c++){
             if(board[r][c] == digit && col != c && row != r){
@@ -90,7 +90,13 @@ public class Sudoku implements SudokuSolver{
      */
     public int[][] getMatrix(){
         //board.solve() 
-        return board; 
+        int[][] matrix = new int[9][9];
+        for(int r=0; r<9; r++){
+            for(int c=0; c<9; c++){
+                matrix[r][c] = board[r][c]; 
+            }
+        }
+        return matrix; 
     }
     /**
      * Method to solve the sudoku.
