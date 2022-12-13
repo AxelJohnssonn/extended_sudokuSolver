@@ -72,6 +72,11 @@ public class SudokuScan2{
                 }
     
             }
+            if (row==9) { // only 1 sudoku in inputfile or lastrow missing space
+                Sudoku sudoku= new Sudoku();
+                sudoku.setMatrix(board);
+                savedBoards.add(sudoku);
+            }
             input.close();
 
         } catch (FileNotFoundException e) {
