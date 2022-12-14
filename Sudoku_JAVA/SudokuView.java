@@ -169,7 +169,7 @@ public class SudokuView {
                 resetBoardColor();
             } else {
                 JOptionPane.showMessageDialog(sudokuView,
-                "MEDIUM ERROR: CAN'T LOAD TEXT", "UNREADABLE FILE", JOptionPane.ERROR_MESSAGE);
+                "CAN'T LOAD A SUDOKU FROM THE FILE.WRONG FORMAT", "UNREADABLE FILE", JOptionPane.ERROR_MESSAGE);
             }
         });
 

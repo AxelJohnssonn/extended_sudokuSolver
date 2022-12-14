@@ -96,6 +96,9 @@ public class SudokuScan2{
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return false;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return false;
         }
         
         return true;
