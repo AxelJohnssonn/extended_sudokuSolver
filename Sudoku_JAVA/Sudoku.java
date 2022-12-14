@@ -47,10 +47,10 @@ public class Sudoku implements SudokuSolver{
     }
 
     /**
-     * Check if the position at row, col has a start value
+     * Check if the position at row, col has a value
      * @param row row position in the matrix
      * @param col column position in the matrix 
-     * @return true if the position has no start value, false otherwise
+     * @return true if the position has no value, false otherwise
      */
     public boolean checkIfEmpty(int row, int col){
 
@@ -62,7 +62,7 @@ public class Sudoku implements SudokuSolver{
     }
 
     /**
-     * Initializes the board with values in the matrix start.
+     * Sets the board with values in the matrix.
      * @param matrix matrix board with input values
      * @throws IllegalArgumentException if matrix has the wrong dimension or contains
 	 *                                  values outside the range [0..9]
