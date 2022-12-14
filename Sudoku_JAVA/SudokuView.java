@@ -35,7 +35,7 @@ public class SudokuView {
     private JFrame frame;
     private JPanel sudokuView;
     private SudokuScan2 sudokuScan2;
-    private Sudoku outputBoard;
+    private SudokuSolver outputBoard;
 
     public SudokuView(Sudoku board) {
         outputBoard = board;

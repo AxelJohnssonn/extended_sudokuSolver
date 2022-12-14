@@ -110,7 +110,7 @@ public class Sudoku implements SudokuSolver{
                     }
                 }
             }
-            return Solve(0, 0);
+            return solve(0, 0);
         }                        
 
     /**
@@ -119,7 +119,7 @@ public class Sudoku implements SudokuSolver{
      * @param col column position of the matrix
      * @return  true if solution was found, false otherwise 
      */ 
-    private boolean Solve(int row, int col){ 
+    private boolean solve(int row, int col){ 
         if(col == 9){
             col = 0; 
             row++;
@@ -128,14 +128,14 @@ public class Sudoku implements SudokuSolver{
             return true; 
         }
         if(board[row][col] != 0){
-            return Solve(row, col +1);
+            return solve(row, col +1);
         }   
 
         for(int i = 1; i <= 9; i++){
             if(legal(i, row, col)){ 
                 board[row][col] = i;
                 
-                if(Solve(row, col+1)){ 
+                if(solve(row, col+1)){ 
                     return true; 
                 }
             }
