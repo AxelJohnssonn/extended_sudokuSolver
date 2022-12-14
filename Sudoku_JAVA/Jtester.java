@@ -107,6 +107,26 @@ import org.junit.jupiter.api.Test;
         sudoku.set(9,5,5);
         assertEquals(9, sudoku.getMatrix()[5][5],"Wrong value when adding digit into matrix");
     }
+    @Test
+    public void testSetMatrix(){
+        int[][] grid = new int[][]{
+                {1, 1, 1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 1, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0}
+        };
+        sudoku.setMatrix(grid);
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                assertEquals(grid[i][j], sudoku.getMatrix()[i][j], "Did not set the matrix correctly");
+            }
+        }
+    }
 
     @Test
     public void testRemoveSquare(){
